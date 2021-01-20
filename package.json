@@ -1,0 +1,23 @@
+{
+  "name": "mibreit-lazy-loader",
+  "version": "0.0.1",
+  "description": "Lazy loading of images and iframes with windowing mechanism",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.config.js",
+    "test": ""
+  },
+  "keywords": [
+    "Typescript"
+  ],
+  "author": "Michael Breitung",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "typescript-plugin-css-modules": "^3.0.1",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
+  }
+}
