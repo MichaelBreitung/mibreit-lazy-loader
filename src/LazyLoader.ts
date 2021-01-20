@@ -5,7 +5,7 @@
 
 import ElementLoader from './ElementLoader';
 
-const PRELOADER_WINDOW_SIZE = 6;
+const PRELOADER_WINDOW_SIZE = 5;
 
 export default class LazyLoader {
   private currentIndex: number;
@@ -16,15 +16,14 @@ export default class LazyLoader {
 
   constructor(
     elementLoaders: Array<ElementLoader>,
-    preloaderBeforeSize = PRELOADER_WINDOW_SIZE / 2,
-    preloaderAfterSize = PRELOADER_WINDOW_SIZE / 2
+    preloaderBeforeSize = 0,
+    preloaderAfterSize = PRELOADER_WINDOW_SIZE
   ) {
-    this.currentIndex = 0;
+    this.currentIndex = -1;
     this.elementLoaders = elementLoaders;
     this.preloaderBeforeSize = preloaderBeforeSize;
     this.preloaderAfterSize = preloaderAfterSize;
-    this.nrElementsLoaded = this.getLoadedCount();
-    this.moveWindow();
+    this.nrElementsLoaded = this.getLoadedCount();  
   }
 
   loadAll()
