@@ -19,15 +19,20 @@ export default class LazyLoader {
     preloaderBeforeSize = 0,
     preloaderAfterSize = PRELOADER_WINDOW_SIZE
   ) {
+    console.log(
+      'LazyLoader#constructor - preloaderBeforeSize: ',
+      preloaderBeforeSize,
+      ', preloaderAfterSize: ',
+      preloaderAfterSize
+    );
     this.currentIndex = -1;
     this.elementLoaders = elementLoaders;
     this.preloaderBeforeSize = preloaderBeforeSize;
     this.preloaderAfterSize = preloaderAfterSize;
-    this.nrElementsLoaded = this.getLoadedCount();  
+    this.nrElementsLoaded = this.getLoadedCount();
   }
 
-  loadAll()
-  {
+  loadAll() {
     this.loadElements(0, this.elementLoaders.length);
   }
 
