@@ -1,0 +1,10 @@
+.element {    
+  -webkit-transition: opacity 800ms ease-out;
+  -moz-transition: opacity 800ms ease-out;
+  -o-transition: opacity 800ms ease-out;
+  transition: opacity 800ms ease-out;  
+}
+
+.element_loading {
+  opacity: 0;
+}
