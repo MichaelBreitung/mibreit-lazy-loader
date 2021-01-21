@@ -27,7 +27,7 @@ export type LazyLoadConfig = {
 export function lazyLoad(config: LazyLoadConfig): LazyLoader {
   const loader = createLoader(config);
 
-  document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('load', () => {
     if (config.windowed === null || config.windowed === false) {
       loader.loadAll();
     } else {
