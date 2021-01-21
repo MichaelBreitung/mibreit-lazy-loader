@@ -18,13 +18,7 @@ export default class LazyLoader {
     elementLoaders: Array<ElementLoader>,
     preloaderBeforeSize = 0,
     preloaderAfterSize = PRELOADER_WINDOW_SIZE
-  ) {
-    console.log(
-      'LazyLoader#constructor - preloaderBeforeSize: ',
-      preloaderBeforeSize,
-      ', preloaderAfterSize: ',
-      preloaderAfterSize
-    );
+  ) {   
     this.currentIndex = -1;
     this.elementLoaders = elementLoaders;
     this.preloaderBeforeSize = preloaderBeforeSize;
