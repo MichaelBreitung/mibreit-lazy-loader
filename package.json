@@ -2,7 +2,7 @@
   "name": "mibreit-lazy-loader",
   "version": "0.0.1",
   "description": "Lazy loading of images and iframes with windowing mechanism",
-  "main": "dist/index.js",
+  "main": "src/indexNpm.ts",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --config webpack.config.js",

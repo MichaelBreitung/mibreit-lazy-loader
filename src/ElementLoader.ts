@@ -15,7 +15,7 @@ enum EImageState {
 }
 
 export default class ElementLoader {
-  private element: HTMLElement;
+  protected element: HTMLElement;
   private originalElementStyle: string;
   private state: EImageState = EImageState.INACTIVE;
   private wasLoadedCallbacks: Array<() => void> = new Array();
