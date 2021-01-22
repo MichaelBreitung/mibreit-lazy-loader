@@ -3,6 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
+import IElementLoader from '../interfaces/IElementLoader';
 import styles from './ElementLoader.module.css';
 
 export const DATA_SRC_ATTRIBUTE = 'data-src';
@@ -14,7 +15,7 @@ enum EImageState {
   LOADED,
 }
 
-export default class ElementLoader {
+export default class ElementLoader implements IElementLoader {
   protected element: HTMLElement;
   private originalElementStyle: string;
   private state: EImageState = EImageState.INACTIVE;
@@ -33,7 +34,7 @@ export default class ElementLoader {
       this.state = EImageState.LOADED;
     } else {
       this.state = EImageState.INACTIVE;
-      this.setLoadingStyle();
+      this.setBaseStyle();
     }
   }
 
@@ -71,18 +72,22 @@ export default class ElementLoader {
     }
   }
 
+  private setBaseStyle() {
+    this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_invisible}`);
+  }
+
   private setLoadingStyle() {
-    this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element} ${styles.element_loading}`);
+    this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_animate} ${styles.element_invisible}`);
   }
 
   private setLoadedStyle() {
     if (this.originalElementStyle.length > 0) {
-      this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element}`);
+      this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_animate}`);
       setTimeout(() => {
         this.element.setAttribute('class', this.originalElementStyle);
       }, 1000);
     } else if (this.element.hasAttribute('class')) {
-      this.element.setAttribute('class', `${styles.element}`);
+      this.element.setAttribute('class', `${styles.element_animate}`);
       setTimeout(() => {
         this.element.removeAttribute('class');
       }, 1000);

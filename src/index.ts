@@ -3,9 +3,9 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import LazyLoader from './LazyLoader';
-import ScrollLoader from './ScrollLoader';
-import ElementLoader from './ElementLoader';
+import LazyLoader from './components/LazyLoader';
+import ScrollLoader from './components/ScrollLoader';
+import Element from './components/Element';
 
 export enum ELazyMode {
   SIMPLE_DEFER,
@@ -20,19 +20,7 @@ export type LazyLoadConfig = {
   mode?: ELazyMode;
 };
 
-function createLoader(
-  elements: NodeListOf<HTMLElement>,
-  preloaderBeforeSize?: number,
-  preloaderAfterSize?: number
-): LazyLoader {
-  const elementLoaders: Array<ElementLoader> = [];
-  for (let i = 0; i < elements.length; i++) {
-    elementLoaders.push(new ElementLoader(elements[i]));
-  }
-  return new LazyLoader(elementLoaders, preloaderBeforeSize, preloaderAfterSize);
-}
-
-function startLoader(loader: LazyLoader, elements: NodeListOf<HTMLElement>, mode?: ELazyMode) {
+function startLoader(loader: LazyLoader, elements: Array<Element>, mode?: ELazyMode) {
   if (mode != null) {
     switch (mode) {
       case ELazyMode.WINDOWED_ETERNAL:
@@ -52,8 +40,12 @@ function startLoader(loader: LazyLoader, elements: NodeListOf<HTMLElement>, mode
 }
 
 export function lazyLoad(config: LazyLoadConfig): LazyLoader {
-  const elements: NodeListOf<HTMLElement> = document.querySelectorAll(config.elementSelector);
-  const loader = createLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
+  const htmlElements: NodeListOf<HTMLElement> = document.querySelectorAll(config.elementSelector);
+  const elements: Array<Element> = [];
+  for (let i = 0; i < htmlElements.length; i++) {
+    elements.push(new Element(htmlElements[i]));
+  }
+  const loader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
 
   window.addEventListener('load', () => {
     startLoader(loader, elements, config.mode);

@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import ElementLoader from './ElementLoader';
+import IElementLoader from '../interfaces/IElementLoader';
 
 const PRELOADER_WINDOW_SIZE = 5;
 
@@ -12,10 +12,10 @@ export default class LazyLoader {
   private preloaderBeforeSize: number;
   private preloaderAfterSize: number;
   private nrElementsLoaded: number;
-  private elementLoaders: Array<ElementLoader>;
+  private elementLoaders: Array<IElementLoader>;
 
   constructor(
-    elementLoaders: Array<ElementLoader>,
+    elementLoaders: Array<IElementLoader>,
     preloaderBeforeSize = 0,
     preloaderAfterSize = PRELOADER_WINDOW_SIZE
   ) {   
@@ -91,7 +91,7 @@ export default class LazyLoader {
 
   private getLoadedCount() {
     let loadedCount = 0;
-    this.elementLoaders.forEach((loader: ElementLoader) => {
+    this.elementLoaders.forEach((loader: IElementLoader) => {
       if (loader.wasLoaded()) {
         loadedCount++;
       }
