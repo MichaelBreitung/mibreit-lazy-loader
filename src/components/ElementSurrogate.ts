@@ -42,10 +42,8 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
   }
 
   private createSurrogate(): HTMLElement {
-    const surrogate = DomTools.createElement('div');
-    if (this.elementInfo.getStyle()) {
-      DomTools.applyCssClass(surrogate, this.elementInfo.getStyle());
-    }
+    const surrogate = DomTools.createElement('div');    
+    DomTools.applyCssClass(surrogate, "mibreit_lazyLoader_surrogate");    
     DomTools.applyCssStyles(
       surrogate,
       `overflow: hidden; width: 100%; height: 0; padding-bottom: ${
