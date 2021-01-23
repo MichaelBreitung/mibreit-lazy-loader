@@ -3,6 +3,6 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-export default interface IElementLocationInfo {
-  isElementWithinScrollArea(): boolean;
+export default interface IImageStage { 
+  applyScaleMode(): void;
 }

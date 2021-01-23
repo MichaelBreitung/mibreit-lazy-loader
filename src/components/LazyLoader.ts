@@ -10,20 +10,20 @@ const PRELOADER_WINDOW_SIZE = 5;
 export default class LazyLoader {
   private currentIndex: number;
   private preloaderBeforeSize: number;
-  private preloaderAfterSize: number;
-  private nrElementsLoaded: number;
+  private preloaderAfterSize: number;  
+  private unloadedElementIndices: Array<number> = [];
   private elementLoaders: Array<IElementLoader>;
 
   constructor(
     elementLoaders: Array<IElementLoader>,
     preloaderBeforeSize = 0,
     preloaderAfterSize = PRELOADER_WINDOW_SIZE
-  ) {   
+  ) {
     this.currentIndex = -1;
     this.elementLoaders = elementLoaders;
     this.preloaderBeforeSize = preloaderBeforeSize;
     this.preloaderAfterSize = preloaderAfterSize;
-    this.nrElementsLoaded = this.getLoadedCount();
+    this.updateUnloadedElementIndices();
   }
 
   loadAll() {
@@ -46,15 +46,25 @@ export default class LazyLoader {
    *         It will reject an invalid index with a error message
    */
   async loadElement(index: number): Promise<boolean> {
+    console.log("LazyLoader#loadElement - index: ", index);
     if (index >= 0 && index < this.elementLoaders.length) {
       let loaded = false;
-      try {
-        loaded = await this.elementLoaders[index].load();
-        if (loaded) {
-          this.nrElementsLoaded++;
+      if (!this.unloadedElementIndices.includes(index))
+      {
+        loaded = true;
+      }
+      else{        
+        try {
+          loaded = await this.elementLoaders[index].load();
+          if (loaded) {
+            const location = this.unloadedElementIndices.indexOf(index);
+            if (location > -1) {
+              this.unloadedElementIndices.splice(location, 1);
+            }
+          }
+        } catch (wasLoaded) {
+          loaded = wasLoaded;
         }
-      } catch (wasLoaded) {
-        loaded = wasLoaded;
       }
       return loaded;
     } else {
@@ -62,8 +72,12 @@ export default class LazyLoader {
     }
   }
 
+  getUnloadedElementIndices(): Array<number> {
+    return this.unloadedElementIndices;
+  }
+
   private moveWindow() {
-    if (this.nrElementsLoaded < this.elementLoaders.length) {
+    if (this.unloadedElementIndices.length) {
       let start = this.currentIndex - this.preloaderBeforeSize;
       let end = this.currentIndex + this.preloaderAfterSize;
 
@@ -89,13 +103,11 @@ export default class LazyLoader {
     }
   }
 
-  private getLoadedCount() {
-    let loadedCount = 0;
-    this.elementLoaders.forEach((loader: IElementLoader) => {
-      if (loader.wasLoaded()) {
-        loadedCount++;
+  private updateUnloadedElementIndices() {
+    for (let i = 0; i < this.elementLoaders.length; i++) {
+      if (!this.elementLoaders[i].wasLoaded()) {
+        this.unloadedElementIndices.push(i);
       }
-    });
-    return loadedCount;
+    }
   }
 }

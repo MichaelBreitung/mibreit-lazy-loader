@@ -3,6 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
+import DomTools from '../tools/domTools';
 import IElementLoader from '../interfaces/IElementLoader';
 import styles from './ElementLoader.module.css';
 
@@ -17,7 +18,7 @@ enum EImageState {
 
 export default class ElementLoader implements IElementLoader {
   protected element: HTMLElement;
-  private originalElementStyle: string;
+  protected originalElementStyle: string;
   private state: EImageState = EImageState.INACTIVE;
   private wasLoadedCallbacks: Array<() => void> = new Array();
 
@@ -44,16 +45,16 @@ export default class ElementLoader implements IElementLoader {
         this.element.onload = () => {
           this.element.removeAttribute(DATA_SRC_ATTRIBUTE);
           this.state = EImageState.LOADED;
-          this.setLoadedStyle();
           this.wasLoadedCallbacks.forEach((callback) => {
             callback();
           });
+          this.setLoadedStyle();
           resolve(true);
         };
         this.state = EImageState.LOADING;
         this.setLoadingStyle();
-        const dataSrc = this.element.getAttribute(DATA_SRC_ATTRIBUTE);
-        this.element.setAttribute(SRC_ATTRIBUTE, dataSrc);
+        const dataSrc = DomTools.getAttribute(this.element, DATA_SRC_ATTRIBUTE);
+        DomTools.setAttribute(this.element, SRC_ATTRIBUTE, dataSrc);
       } else if (this.state === EImageState.LOADING) {
         reject(false);
       } else {
@@ -73,23 +74,26 @@ export default class ElementLoader implements IElementLoader {
   }
 
   private setBaseStyle() {
-    this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_invisible}`);
+    DomTools.applyCssClass(this.element, `${this.originalElementStyle} ${styles.element_invisible}`);
   }
 
   private setLoadingStyle() {
-    this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_animate} ${styles.element_invisible}`);
+    DomTools.applyCssClass(
+      this.element,
+      `${this.originalElementStyle} ${styles.element_animate} ${styles.element_invisible}`
+    );
   }
 
   private setLoadedStyle() {
     if (this.originalElementStyle.length > 0) {
-      this.element.setAttribute('class', `${this.originalElementStyle} ${styles.element_animate}`);
+      DomTools.applyCssClass(this.element, `${this.originalElementStyle} ${styles.element_animate}`);
       setTimeout(() => {
-        this.element.setAttribute('class', this.originalElementStyle);
+        DomTools.applyCssClass(this.element, this.originalElementStyle);
       }, 1000);
-    } else if (this.element.hasAttribute('class')) {
-      this.element.setAttribute('class', `${styles.element_animate}`);
+    } else {
+      DomTools.applyCssClass(this.element, `${styles.element_animate}`);
       setTimeout(() => {
-        this.element.removeAttribute('class');
+        DomTools.applyCssClass(this.element, null);
       }, 1000);
     }
   }

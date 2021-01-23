@@ -3,8 +3,9 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
+import DomTools from '../tools/domTools';
 import LazyLoader from './LazyLoader';
-import Element from './Element';
+import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 
 // avoid overloading of scroll event
 const SCROLL_EVENT_TIMEOUT = 400;
@@ -12,45 +13,38 @@ const SCROLL_EVENT_TIMEOUT = 400;
 export default class ScrollLoader {
   private lazyLoader: LazyLoader;
   private waitingForTimeout: boolean = false;
-  private elements: Array<{index: number, element: Element}> = [];
+  private elementLocations: Array<IElementLocationInfo> = [];
 
-  constructor(lazyLoader: LazyLoader, elements: Array<Element>) {
+  constructor(lazyLoader: LazyLoader, elementLocations: Array<IElementLocationInfo>) {
     this.lazyLoader = lazyLoader;
-    for (let i = 0; i < elements.length; i++)
-    {
-      if (!elements[i].wasLoaded())
-      {
-        this.elements.push({index: i, element: elements[i]});
-      }
-    } 
+    this.elementLocations = elementLocations;
   }
 
   startLoader() {
     this.loadElementsWithinWindowRect();
-    document.addEventListener('scroll', (_event: Event) => {
-      if (!this.waitingForTimeout) {
-        this.waitingForTimeout = true;
-        setTimeout(() => {
-          this.loadElementsWithinWindowRect();
-          this.waitingForTimeout = false;
-        }, SCROLL_EVENT_TIMEOUT);
-      }
+    DomTools.addScrollEventListener((_event: Event) => {
+      this.gatedLoadElementsWithinWindowRect();
     });
   }
 
-  async loadElementsWithinWindowRect() {   
-    const unloadedElements: Array<{index: number, element: Element}> = [];
-    for (let i = 0; i < this.elements.length; i++) { 
-      if (this.elements[i].element.isElementWithinScrollArea()) {
-        // it is important to wait for loading to complete -> otherwise the bounding 
-        // rect of follow-up elements will be wrong
-        await this.lazyLoader.loadElement(this.elements[i].index);        
-      }
-      else{
-        unloadedElements.push(this.elements[i]);
-      }
+  private async gatedLoadElementsWithinWindowRect() {
+    if (!this.waitingForTimeout) {
+      this.waitingForTimeout = true;
+      setTimeout(() => {
+        this.loadElementsWithinWindowRect();
+        this.waitingForTimeout = false;
+      }, SCROLL_EVENT_TIMEOUT);
     }
-    this.elements = unloadedElements;
-    // TODO stop once we get out of bounds
+  }
+
+  private loadElementsWithinWindowRect() {    
+    const unloadedElementIndices: Array<number> = this.lazyLoader.getUnloadedElementIndices();
+    console.log("ScrollLoader#loadElementsWithinWindowRect - unloadedElements: ", unloadedElementIndices);
+    for (let i = 0; i < unloadedElementIndices.length; i++) {    
+      if (this.elementLocations[unloadedElementIndices[i]].isElementWithinScrollArea()) {
+        this.lazyLoader.loadElement(unloadedElementIndices[i]);
+      } 
+    }
+    // TODO: Further optimization -> stop once we leave the window area
   }
 }
