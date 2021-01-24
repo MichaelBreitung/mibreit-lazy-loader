@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import DomTools from '../tools/domTools';
+import { DomTools } from 'mibreit-dom-tools';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
 
@@ -38,12 +38,12 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
   }
 
   isElementWithinScrollArea(): boolean {
-    return DomTools.isElementWithinWindow(this.surrogate);    
+    return DomTools.isElementWithinWindow(this.surrogate);
   }
 
   private createSurrogate(): HTMLElement {
-    const surrogate = DomTools.createElement('div');    
-    DomTools.applyCssClass(surrogate, "mibreit_lazyLoader_surrogate");    
+    const surrogate = DomTools.createElement('div');
+    DomTools.applyCssClass(surrogate, 'mibreit_lazyLoader_surrogate');
     DomTools.applyCssStyles(
       surrogate,
       `overflow: hidden; width: 100%; height: 0; padding-bottom: ${

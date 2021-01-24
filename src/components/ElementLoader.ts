@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import DomTools from '../tools/domTools';
+import { DomTools } from 'mibreit-dom-tools';
 import IElementLoader from '../interfaces/IElementLoader';
 import styles from './ElementLoader.module.css';
 
@@ -25,13 +25,10 @@ export default class ElementLoader implements IElementLoader {
   constructor(element: HTMLElement) {
     this.element = element;
 
-    if (element.hasAttribute('class')) {
-      this.originalElementStyle = this.element.getAttribute('class');
-    } else {
-      this.originalElementStyle = '';
-    }
-
-    if (!this.element.hasAttribute(DATA_SRC_ATTRIBUTE)) {
+    const originalStyle = DomTools.getAttribute(element, 'class');    
+    this.originalElementStyle = originalStyle ? originalStyle : '';
+    
+    if (!DomTools.hasAttribute(element, DATA_SRC_ATTRIBUTE)) {
       this.state = EImageState.LOADED;
     } else {
       this.state = EImageState.INACTIVE;
@@ -43,7 +40,7 @@ export default class ElementLoader implements IElementLoader {
     return new Promise((resolve, reject) => {
       if (this.state === EImageState.INACTIVE) {
         this.element.onload = () => {
-          this.element.removeAttribute(DATA_SRC_ATTRIBUTE);
+          DomTools.removeAttribute(this.element, DATA_SRC_ATTRIBUTE);
           this.state = EImageState.LOADED;
           this.wasLoadedCallbacks.forEach((callback) => {
             callback();

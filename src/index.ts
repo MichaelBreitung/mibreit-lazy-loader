@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import DomTools from './tools/domTools';
+import { DomTools } from 'mibreit-dom-tools';
 import LazyLoader from './components/LazyLoader';
 import ScrollLoader from './components/ScrollLoader';
 import Element from './components/Element';
@@ -44,18 +44,17 @@ function startLoader(loader: LazyLoader, elements: Array<Element>, mode?: ELazyM
 
 export function lazyLoad(config: LazyLoadConfig): LazyLoader {
   const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(config.elementSelector);
-  const elements: Array<Element> = [];  
+  const elements: Array<Element> = [];
   for (let i = 0; i < htmlElements.length; i++) {
-    const element = new Element(htmlElements[i]);    
+    const element = new Element(htmlElements[i]);
     elements.push(element);
-    if (config.useSurrogate != null && config.useSurrogate)
-    {
+    if (config.useSurrogate != null && config.useSurrogate) {
       const surrogate = new ElementSurrogate(element);
-      surrogate.wrap(htmlElements[i]);      
+      surrogate.wrap(htmlElements[i]);
       element.addWasLoadedCallback(() => {
         surrogate.unwrap();
       });
-    }    
+    }
   }
   const loader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
   DomTools.documentReady(() => {

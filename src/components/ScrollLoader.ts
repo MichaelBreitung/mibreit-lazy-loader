@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import DomTools from '../tools/domTools';
+import { DomTools } from 'mibreit-dom-tools';
 import LazyLoader from './LazyLoader';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 
@@ -37,13 +37,13 @@ export default class ScrollLoader {
     }
   }
 
-  private loadElementsWithinWindowRect() {    
+  private loadElementsWithinWindowRect() {
     const unloadedElementIndices: Array<number> = this.lazyLoader.getUnloadedElementIndices();
-    console.log("ScrollLoader#loadElementsWithinWindowRect - unloadedElements: ", unloadedElementIndices);
-    for (let i = 0; i < unloadedElementIndices.length; i++) {    
+    console.log('ScrollLoader#loadElementsWithinWindowRect - unloadedElements: ', unloadedElementIndices);
+    for (let i = 0; i < unloadedElementIndices.length; i++) {
       if (this.elementLocations[unloadedElementIndices[i]].isElementWithinScrollArea()) {
         this.lazyLoader.loadElement(unloadedElementIndices[i]);
-      } 
+      }
     }
     // TODO: Further optimization -> stop once we leave the window area
   }
