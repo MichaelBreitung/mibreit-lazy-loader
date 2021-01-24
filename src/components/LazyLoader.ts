@@ -45,8 +45,7 @@ export default class LazyLoader {
    *         or will resolve right away with false, if the Element is in loading state;
    *         It will reject an invalid index with a error message
    */
-  async loadElement(index: number): Promise<boolean> {
-    console.log("LazyLoader#loadElement - index: ", index);
+  async loadElement(index: number): Promise<boolean> {    
     if (index >= 0 && index < this.elementLoaders.length) {
       let loaded = false;
       if (!this.unloadedElementIndices.includes(index))
@@ -54,6 +53,7 @@ export default class LazyLoader {
         loaded = true;
       }
       else{        
+        console.log("LazyLoader#loadElement - index: ", index);
         try {
           loaded = await this.elementLoaders[index].load();
           if (loaded) {

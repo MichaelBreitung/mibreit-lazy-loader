@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --config webpack.config.js",
-    "build:npm": "tsc",
+    "build:npm": "webpack --config webpack.config.npm.js",
     "test": ""
   },
   "keywords": [
