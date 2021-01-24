@@ -5,6 +5,9 @@
     "module": "es6",
     "target": "es5",
     "allowJs": true,
+    "declaration": true,
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
-  }
+  },
+  "include": ["src"],
+  "exclude": ["src/index.ts"]
 }
