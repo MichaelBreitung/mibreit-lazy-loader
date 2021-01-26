@@ -11,9 +11,12 @@ import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
   private width: number;
   private height: number;
+  private originalElementStyle: string;
 
   constructor(element: HTMLElement) {
+    const originalStyle = DomTools.getAttribute(element, 'class');    
     super(element);
+    this.originalElementStyle = originalStyle ? originalStyle : '';    
     this.width = parseInt(DomTools.getAttribute(element, 'width'));
     this.height = parseInt(DomTools.getAttribute(element, 'height'));
   }

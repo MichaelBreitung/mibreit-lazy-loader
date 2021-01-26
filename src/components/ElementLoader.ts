@@ -17,17 +17,12 @@ enum EImageState {
 }
 
 export default class ElementLoader implements IElementLoader {
-  protected element: HTMLElement;
-  protected originalElementStyle: string;
+  protected element: HTMLElement;  
   private state: EImageState = EImageState.INACTIVE;
   private wasLoadedCallbacks: Array<() => void> = new Array();
 
   constructor(element: HTMLElement) {
     this.element = element;
-
-    const originalStyle = DomTools.getAttribute(element, 'class');    
-    this.originalElementStyle = originalStyle ? originalStyle : '';
-    
     if (!DomTools.hasAttribute(element, DATA_SRC_ATTRIBUTE)) {
       this.state = EImageState.LOADED;
     } else {
@@ -71,27 +66,17 @@ export default class ElementLoader implements IElementLoader {
   }
 
   private setBaseStyle() {
-    DomTools.applyCssClass(this.element, `${this.originalElementStyle} ${styles.element_invisible}`);
+    DomTools.addCssStyle(this.element, 'opacity', '0');
   }
 
   private setLoadingStyle() {
-    DomTools.applyCssClass(
-      this.element,
-      `${this.originalElementStyle} ${styles.element_animate} ${styles.element_invisible}`
-    );
+    DomTools.addCssClass(this.element, styles.element_animate);
   }
 
   private setLoadedStyle() {
-    if (this.originalElementStyle.length > 0) {
-      DomTools.applyCssClass(this.element, `${this.originalElementStyle} ${styles.element_animate}`);
-      setTimeout(() => {
-        DomTools.applyCssClass(this.element, this.originalElementStyle);
-      }, 1000);
-    } else {
-      DomTools.applyCssClass(this.element, `${styles.element_animate}`);
-      setTimeout(() => {
-        DomTools.applyCssClass(this.element, null);
-      }, 1000);
-    }
+    DomTools.removeCssStyle(this.element, 'opacity');    
+    setTimeout(() => {
+      DomTools.removeCssClass(this.element, styles.element_animate);      
+    }, 1000);
   }
 }

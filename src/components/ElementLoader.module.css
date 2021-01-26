@@ -4,7 +4,3 @@
   -o-transition: opacity 800ms ease-out;
   transition: opacity 800ms ease-out;  
 }
-
-.element_invisible {
-  opacity: 0;
-}

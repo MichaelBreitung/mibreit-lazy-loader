@@ -7,7 +7,6 @@ export declare const DATA_SRC_ATTRIBUTE = "data-src";
 export declare const SRC_ATTRIBUTE = "src";
 export default class ElementLoader implements IElementLoader {
     protected element: HTMLElement;
-    protected originalElementStyle: string;
     private state;
     private wasLoadedCallbacks;
     constructor(element: HTMLElement);
