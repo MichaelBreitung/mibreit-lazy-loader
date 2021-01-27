@@ -24,19 +24,17 @@ export type LazyLoaderConfig = {
   useSurrogate?: boolean;
 };
 
-export function createLazyLoaderFromElements(htmlElements: NodeListOf<HTMLElement>, config: LazyLoaderConfig): ILazyLoader {
-  const elements: Array<Element> = [];
-  for (let i = 0; i < htmlElements.length; i++) {
-    const element = new Element(htmlElements[i]);
-    elements.push(element);
-    if (config.useSurrogate) {
-      const surrogate = new ElementSurrogate(htmlElements[i]);
-      surrogate.wrap(htmlElements[i]);
-      element.addWasLoadedCallback(() => {
+export function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader {
+  if (config.useSurrogate) {
+    for (let i = 0; i < elements.length; i++) {
+      const surrogate = new ElementSurrogate(elements[i]);
+      surrogate.wrap(elements[i].getHtmlElement());
+      elements[i].addWasLoadedCallback(() => {
         surrogate.unwrap();
       });
     }
   }
+  
   const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
 
   startLoader(lazyLoader, elements, config.mode);
@@ -45,7 +43,13 @@ export function createLazyLoaderFromElements(htmlElements: NodeListOf<HTMLElemen
 }
 
 export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
-  return createLazyLoaderFromElements(DomTools.getElements(elementSelector), config);
+  const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(elementSelector);
+  const elements: Array<Element> = [];
+  for (let i = 0; i < htmlElements.length; i++) {
+    const element = new Element(htmlElements[i]);
+    elements.push(element);
+  }
+  return createLazyLoaderFromElements(elements, config);
 }
 
 function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>, mode?: ELazyMode) {

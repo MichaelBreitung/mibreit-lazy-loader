@@ -8,6 +8,7 @@ import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
     private elementInfo;
     constructor(element: HTMLElement);
+    getHtmlElement(): HTMLElement;
     getWidth(): number;
     getHeight(): number;
     getStyle(): string;

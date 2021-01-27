@@ -10,11 +10,11 @@ import ElementInfo from './ElementInfo';
 
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
   protected surrogate: HTMLElement;
-  protected elementInfo: ElementInfo;
+  protected elementInfo: IElementLocationInfo & IElementInfo;
 
-  constructor(element: HTMLElement) {   
-    this.elementInfo = new ElementInfo(element);
-    this.surrogate = this.createSurrogate();    
+  constructor(elementInfo: IElementLocationInfo & IElementInfo) {
+    this.elementInfo = elementInfo;
+    this.surrogate = this.createSurrogate();
   }
 
   wrap(elementHandle: HTMLElement) {

@@ -10,10 +10,14 @@ import ElementInfo from './ElementInfo';
 
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
   private elementInfo: ElementInfo;
- 
+
   constructor(element: HTMLElement) {
     super(element);
     this.elementInfo = new ElementInfo(this.element);
+  }
+
+  getHtmlElement(): HTMLElement {
+    return this.element;
   }
 
   getWidth(): number {

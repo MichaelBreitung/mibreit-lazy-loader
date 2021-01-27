@@ -3,6 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 import ILazyLoader from '../interfaces/ILazyLoader';
+import Element from '../components/Element';
 export declare enum ELazyMode {
     SIMPLE_DEFER = 0,
     WINDOWED_EXTERNAL = 1,
@@ -14,5 +15,5 @@ export declare type LazyLoaderConfig = {
     mode?: ELazyMode;
     useSurrogate?: boolean;
 };
-export declare function createLazyLoaderFromElements(htmlElements: NodeListOf<HTMLElement>, config: LazyLoaderConfig): ILazyLoader;
+export declare function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader;
 export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader;
