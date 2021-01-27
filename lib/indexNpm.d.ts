@@ -3,6 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 export { default as IElementInfo } from './interfaces/IElementInfo';
+export { default as IElementLoaderInfo } from './interfaces/IElementLoaderInfo';
 export { default as Element } from './components/Element';
 export { default as LazyLoader } from './components/LazyLoader';
 export { default as ScrollLoader } from './components/ScrollLoader';
