@@ -9,10 +9,10 @@ export declare enum ELazyMode {
     WINDOWED_SCROLL = 2
 }
 export declare type LazyLoaderConfig = {
-    elementSelector: string;
     preloaderBeforeSize?: number;
     preloaderAfterSize?: number;
     mode?: ELazyMode;
     useSurrogate?: boolean;
 };
-export default function (config: LazyLoaderConfig): ILazyLoader;
+export declare function createLazyLoaderFromElements(htmlElements: NodeListOf<HTMLElement>, config: LazyLoaderConfig): ILazyLoader;
+export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader;

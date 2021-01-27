@@ -18,17 +18,13 @@ export enum ELazyMode {
 }
 
 export type LazyLoaderConfig = {
-  elementSelector: string;
   preloaderBeforeSize?: number;
   preloaderAfterSize?: number;
   mode?: ELazyMode;
   useSurrogate?: boolean;
 };
 
-export default function (
-  config: LazyLoaderConfig
-): ILazyLoader {
-  const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(config.elementSelector);
+export function createLazyLoaderFromElements(htmlElements: NodeListOf<HTMLElement>, config: LazyLoaderConfig): ILazyLoader {
   const elements: Array<Element> = [];
   for (let i = 0; i < htmlElements.length; i++) {
     const element = new Element(htmlElements[i]);
@@ -41,12 +37,15 @@ export default function (
       });
     }
   }
-
   const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
 
-  startLoader(lazyLoader, elements, config.mode)
+  startLoader(lazyLoader, elements, config.mode);
 
   return lazyLoader;
+}
+
+export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
+  return createLazyLoaderFromElements(DomTools.getElements(elementSelector), config);
 }
 
 function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>, mode?: ELazyMode) {
@@ -67,4 +66,3 @@ function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>,
     }
   }
 }
-
