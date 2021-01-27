@@ -4,7 +4,8 @@
  */
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
-export default class LazyLoader {
+import ILazyLoader from '../interfaces/ILazyLoader';
+export default class LazyLoader implements ILazyLoader {
     private currentIndex;
     private preloaderBeforeSize;
     private preloaderAfterSize;
@@ -22,6 +23,7 @@ export default class LazyLoader {
      *         It will reject an invalid index with a error message
      */
     loadElement(index: number): Promise<boolean>;
+    getElementLoaderInfos(): Array<IElementLoaderInfo>;
     getUnloadedElementIndices(): Array<number>;
     private moveWindow;
     private loadElements;

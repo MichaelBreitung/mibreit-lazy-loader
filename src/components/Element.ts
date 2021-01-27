@@ -3,37 +3,32 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import { DomTools } from 'mibreit-dom-tools';
 import ElementLoader from './ElementLoader';
 import IElementInfo from '../interfaces/IElementInfo';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
+import ElementInfo from './ElementInfo';
 
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
-  private width: number;
-  private height: number;
-  private originalElementStyle: string;
-
+  private elementInfo: ElementInfo;
+ 
   constructor(element: HTMLElement) {
-    const originalStyle = DomTools.getAttribute(element, 'class');    
     super(element);
-    this.originalElementStyle = originalStyle ? originalStyle : '';    
-    this.width = parseInt(DomTools.getAttribute(element, 'width'));
-    this.height = parseInt(DomTools.getAttribute(element, 'height'));
+    this.elementInfo = new ElementInfo(this.element);
   }
 
   getWidth(): number {
-    return this.width;
+    return this.elementInfo.getWidth();
   }
 
   getHeight(): number {
-    return this.height;
+    return this.elementInfo.getWidth();
   }
 
   getStyle(): string {
-    return this.originalElementStyle;
+    return this.elementInfo.getStyle();
   }
 
   isElementWithinScrollArea(): boolean {
-    return DomTools.isElementWithinWindow(this.element);
+    return this.elementInfo.isElementWithinScrollArea();
   }
 }

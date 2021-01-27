@@ -4,18 +4,18 @@
  */
 
 import { DomTools } from 'mibreit-dom-tools';
-import LazyLoader from './LazyLoader';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
+import ILazyLoader from '../interfaces/ILazyLoader';
 
 // avoid overloading of scroll event
 const SCROLL_EVENT_TIMEOUT = 400;
 
 export default class ScrollLoader {
-  private lazyLoader: LazyLoader;
+  private lazyLoader: ILazyLoader;
   private waitingForTimeout: boolean = false;
   private elementLocations: Array<IElementLocationInfo> = [];
 
-  constructor(lazyLoader: LazyLoader, elementLocations: Array<IElementLocationInfo>) {
+  constructor(lazyLoader: ILazyLoader, elementLocations: Array<IElementLocationInfo>) {
     this.lazyLoader = lazyLoader;
     this.elementLocations = elementLocations;
   }

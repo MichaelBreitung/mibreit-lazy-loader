@@ -6,14 +6,15 @@
 import { DomTools } from 'mibreit-dom-tools';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
+import ElementInfo from './ElementInfo';
 
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
   protected surrogate: HTMLElement;
-  protected elementInfo: IElementInfo;
+  protected elementInfo: ElementInfo;
 
-  constructor(elementInfo: IElementInfo) {
-    this.elementInfo = elementInfo;
-    this.surrogate = this.createSurrogate();
+  constructor(element: HTMLElement) {   
+    this.elementInfo = new ElementInfo(element);
+    this.surrogate = this.createSurrogate();    
   }
 
   wrap(elementHandle: HTMLElement) {

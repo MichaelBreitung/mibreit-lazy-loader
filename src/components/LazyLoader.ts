@@ -5,10 +5,11 @@
 
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
+import ILazyLoader from '../interfaces/ILazyLoader';
 
 const PRELOADER_WINDOW_SIZE = 5;
 
-export default class LazyLoader {
+export default class LazyLoader implements ILazyLoader {
   private currentIndex: number;
   private preloaderBeforeSize: number;
   private preloaderAfterSize: number;  
@@ -71,6 +72,11 @@ export default class LazyLoader {
     } else {
       throw new Error(`Preloader#loadElement -> invalid Index ${index}`);
     }
+  }
+
+  getElementLoaderInfos(): Array<IElementLoaderInfo>
+  {
+    return this.elementLoaders;
   }
 
   getUnloadedElementIndices(): Array<number> {

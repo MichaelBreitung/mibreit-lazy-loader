@@ -4,7 +4,6 @@
  */
 export { default as IElementInfo } from './interfaces/IElementInfo';
 export { default as IElementLoaderInfo } from './interfaces/IElementLoaderInfo';
+export { default as ILazyLoader } from './interfaces/ILazyLoader';
+export { default as createLazyLoader } from './tools/createLazyLoader';
 export { default as Element } from './components/Element';
-export { default as LazyLoader } from './components/LazyLoader';
-export { default as ScrollLoader } from './components/ScrollLoader';
-export { default as ElementLoader } from './components/ElementLoader';

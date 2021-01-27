@@ -4,10 +4,11 @@
  */
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
+import ElementInfo from './ElementInfo';
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
     protected surrogate: HTMLElement;
-    protected elementInfo: IElementInfo;
-    constructor(elementInfo: IElementInfo);
+    protected elementInfo: ElementInfo;
+    constructor(element: HTMLElement);
     wrap(elementHandle: HTMLElement): void;
     unwrap(): void;
     getWidth(): number;
