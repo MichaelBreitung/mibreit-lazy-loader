@@ -40,7 +40,14 @@ export default class ElementLoader implements IElementLoader {
           this.wasLoadedCallbacks.forEach((callback) => {
             callback();
           });
-          this.setLoadedStyle();
+          // A little explanation for the timeout: we need to decouple the 
+          // change of the load style and the fade it will trigger from the
+          // change to the dom that might be triggered by the callbacks
+          // -> this need to happen separately and a timeout helps to provide
+          // this separation
+          setTimeout(() => {
+            this.setLoadedStyle();
+          }, 50);          
           resolve(true);
         };
         this.state = EImageState.LOADING;
