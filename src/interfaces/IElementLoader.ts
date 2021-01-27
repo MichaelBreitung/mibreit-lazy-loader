@@ -3,8 +3,8 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-export default interface IElementLoader {
-  load: () => Promise<boolean>;
+import IElementLoaderInfo from "./IElementLoaderInfo";
 
-  wasLoaded: () => boolean;
+export default interface IElementLoader extends IElementLoaderInfo {
+  load: () => Promise<boolean>; 
 }

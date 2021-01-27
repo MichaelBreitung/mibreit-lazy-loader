@@ -2,7 +2,7 @@
  * @author Michael Breitung
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
-export default interface IElementLoader {
+import IElementLoaderInfo from "./IElementLoaderInfo";
+export default interface IElementLoader extends IElementLoaderInfo {
     load: () => Promise<boolean>;
-    wasLoaded: () => boolean;
 }

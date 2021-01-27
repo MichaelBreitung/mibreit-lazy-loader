@@ -2,8 +2,11 @@
  * @author Michael Breitung
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
-export default interface IElementInfo {
+
+import IElementLoaderInfo from "./IElementLoaderInfo";
+
+export default interface IElementInfo extends IElementLoaderInfo {
     getWidth(): number;
     getHeight(): number;
-    getStyle(): string;
+    getStyle(): string;    
 }
