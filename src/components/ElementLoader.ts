@@ -5,6 +5,7 @@
 
 import { DomTools } from 'mibreit-dom-tools';
 import IElementLoader from '../interfaces/IElementLoader';
+import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import styles from './ElementLoader.module.css';
 
 export const DATA_SRC_ATTRIBUTE = 'data-src';
@@ -16,7 +17,7 @@ enum EImageState {
   LOADED,
 }
 
-export default class ElementLoader implements IElementLoader {
+export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
   protected element: HTMLElement;  
   private state: EImageState = EImageState.INACTIVE;
   private wasLoadedCallbacks: Array<() => void> = new Array();

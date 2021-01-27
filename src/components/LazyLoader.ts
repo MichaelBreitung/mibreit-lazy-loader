@@ -4,6 +4,7 @@
  */
 
 import IElementLoader from '../interfaces/IElementLoader';
+import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 
 const PRELOADER_WINDOW_SIZE = 5;
 
@@ -12,10 +13,10 @@ export default class LazyLoader {
   private preloaderBeforeSize: number;
   private preloaderAfterSize: number;  
   private unloadedElementIndices: Array<number> = [];
-  private elementLoaders: Array<IElementLoader>;
+  private elementLoaders: Array<IElementLoader & IElementLoaderInfo>;
 
   constructor(
-    elementLoaders: Array<IElementLoader>,
+    elementLoaders: Array<IElementLoader & IElementLoaderInfo>,
     preloaderBeforeSize = 0,
     preloaderAfterSize = PRELOADER_WINDOW_SIZE
   ) {

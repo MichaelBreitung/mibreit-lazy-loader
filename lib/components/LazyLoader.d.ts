@@ -3,13 +3,14 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 import IElementLoader from '../interfaces/IElementLoader';
+import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 export default class LazyLoader {
     private currentIndex;
     private preloaderBeforeSize;
     private preloaderAfterSize;
     private unloadedElementIndices;
     private elementLoaders;
-    constructor(elementLoaders: Array<IElementLoader>, preloaderBeforeSize?: number, preloaderAfterSize?: number);
+    constructor(elementLoaders: Array<IElementLoader & IElementLoaderInfo>, preloaderBeforeSize?: number, preloaderAfterSize?: number);
     loadAll(): void;
     setCurrentIndex(newIndex: number): void;
     /**

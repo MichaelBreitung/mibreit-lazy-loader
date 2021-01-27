@@ -3,9 +3,10 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 import IElementLoader from '../interfaces/IElementLoader';
+import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 export declare const DATA_SRC_ATTRIBUTE = "data-src";
 export declare const SRC_ATTRIBUTE = "src";
-export default class ElementLoader implements IElementLoader {
+export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
     protected element: HTMLElement;
     private state;
     private wasLoadedCallbacks;
