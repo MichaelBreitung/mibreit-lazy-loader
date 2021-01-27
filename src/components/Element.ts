@@ -25,7 +25,7 @@ export default class Element extends ElementLoader implements IElementLocationIn
   }
 
   getHeight(): number {
-    return this.elementInfo.getWidth();
+    return this.elementInfo.getHeight();
   }
 
   getStyle(): string {
