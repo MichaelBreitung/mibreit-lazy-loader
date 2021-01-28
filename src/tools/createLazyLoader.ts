@@ -52,7 +52,7 @@ export default function (elementSelector: string, config: LazyLoaderConfig): ILa
   return createLazyLoaderFromElements(elements, config);
 }
 
-function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>, mode?: ELazyMode) {
+function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>, mode: ELazyMode = ELazyMode.SIMPLE_DEFER) {
   if (mode != null) {
     switch (mode) {
       case ELazyMode.WINDOWED_EXTERNAL:

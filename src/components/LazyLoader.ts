@@ -18,8 +18,8 @@ export default class LazyLoader implements ILazyLoader {
 
   constructor(
     elementLoaders: Array<IElementLoader & IElementLoaderInfo>,
-    preloaderBeforeSize = 0,
-    preloaderAfterSize = PRELOADER_WINDOW_SIZE
+    preloaderBeforeSize: number = 0,
+    preloaderAfterSize: number = PRELOADER_WINDOW_SIZE
   ) {
     this.currentIndex = -1;
     this.elementLoaders = elementLoaders;
