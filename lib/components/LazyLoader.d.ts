@@ -6,11 +6,11 @@ import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 export default class LazyLoader implements ILazyLoader {
-    private currentIndex;
-    private preloaderBeforeSize;
-    private preloaderAfterSize;
-    private unloadedElementIndices;
-    private elementLoaders;
+    private _currentIndex;
+    private _preloaderBeforeSize;
+    private _preloaderAfterSize;
+    private _unloadedElementIndices;
+    private _elementLoaders;
     constructor(elementLoaders: Array<IElementLoader & IElementLoaderInfo>, preloaderBeforeSize?: number, preloaderAfterSize?: number);
     loadAll(): void;
     setCurrentIndex(newIndex: number): void;
@@ -25,7 +25,7 @@ export default class LazyLoader implements ILazyLoader {
     loadElement(index: number): Promise<boolean>;
     getElementLoaderInfos(): Array<IElementLoaderInfo>;
     getUnloadedElementIndices(): Array<number>;
-    private moveWindow;
-    private loadElements;
-    private updateUnloadedElementIndices;
+    private _moveWindow;
+    private _loadElements;
+    private _updateUnloadedElementIndices;
 }

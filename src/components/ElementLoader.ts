@@ -18,44 +18,44 @@ enum EImageState {
 }
 
 export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
-  protected element: HTMLElement;  
-  private state: EImageState = EImageState.INACTIVE;
-  private wasLoadedCallbacks: Array<() => void> = new Array();
+  protected _element: HTMLElement;  
+  private _state: EImageState = EImageState.INACTIVE;
+  private _wasLoadedCallbacks: Array<() => void> = new Array();
 
   constructor(element: HTMLElement) {
-    this.element = element;
+    this._element = element;
     if (!DomTools.hasAttribute(element, DATA_SRC_ATTRIBUTE)) {
-      this.state = EImageState.LOADED;
+      this._state = EImageState.LOADED;
     } else {
-      this.state = EImageState.INACTIVE;
-      this.setBaseStyle();
+      this._state = EImageState.INACTIVE;
+      this._setBaseStyle();
     }
   }
 
   load(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      if (this.state === EImageState.INACTIVE) {
-        this.element.onload = () => {
-          DomTools.removeAttribute(this.element, DATA_SRC_ATTRIBUTE);
-          this.state = EImageState.LOADED;
-          this.wasLoadedCallbacks.forEach((callback) => {
+      if (this._state === EImageState.INACTIVE) {
+        this._element.onload = () => {
+          DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
+          this._state = EImageState.LOADED;
+          this._wasLoadedCallbacks.forEach((callback) => {
             callback();
           });
           // A little explanation for the timeout: we need to decouple the 
           // change of the load style and the fade it will trigger from the
           // change to the dom that might be triggered by the callbacks
-          // -> this need to happen separately and a timeout helps to provide
+          // -> this needs to happen separately and a timeout helps to provide
           // this separation
           setTimeout(() => {
-            this.setLoadedStyle();
+            this._setLoadedStyle();
           }, 50);          
           resolve(true);
         };
-        this.state = EImageState.LOADING;
-        this.setLoadingStyle();
-        const dataSrc = DomTools.getAttribute(this.element, DATA_SRC_ATTRIBUTE);
-        DomTools.setAttribute(this.element, SRC_ATTRIBUTE, dataSrc);
-      } else if (this.state === EImageState.LOADING) {
+        this._state = EImageState.LOADING;
+        this._setLoadingStyle();
+        const dataSrc = DomTools.getAttribute(this._element, DATA_SRC_ATTRIBUTE);
+        DomTools.setAttribute(this._element, SRC_ATTRIBUTE, dataSrc);
+      } else if (this._state === EImageState.LOADING) {
         reject(false);
       } else {
         reject(true);
@@ -64,27 +64,27 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   }
 
   wasLoaded(): boolean {
-    return this.state === EImageState.LOADED;
+    return this._state === EImageState.LOADED;
   }
 
   addWasLoadedCallback(callback: () => void) {
-    if (!this.wasLoadedCallbacks.includes(callback)) {
-      this.wasLoadedCallbacks.push(callback);
+    if (!this._wasLoadedCallbacks.includes(callback)) {
+      this._wasLoadedCallbacks.push(callback);
     }
   }
 
-  private setBaseStyle() {
-    DomTools.addCssStyle(this.element, 'opacity', '0');
+  private _setBaseStyle() {
+    DomTools.addCssStyle(this._element, 'opacity', '0');
   }
 
-  private setLoadingStyle() {
-    DomTools.addCssClass(this.element, styles.element_animate);
+  private _setLoadingStyle() {
+    DomTools.addCssClass(this._element, styles.element_animate);
   }
 
-  private setLoadedStyle() {
-    DomTools.removeCssStyle(this.element, 'opacity');    
+  private _setLoadedStyle() {
+    DomTools.removeCssStyle(this._element, 'opacity');    
     setTimeout(() => {
-      DomTools.removeCssClass(this.element, styles.element_animate);      
+      DomTools.removeCssClass(this._element, styles.element_animate);      
     }, 1000);
   }
 }

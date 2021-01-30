@@ -7,14 +7,14 @@ import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 export declare const DATA_SRC_ATTRIBUTE = "data-src";
 export declare const SRC_ATTRIBUTE = "src";
 export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
-    protected element: HTMLElement;
-    private state;
-    private wasLoadedCallbacks;
+    protected _element: HTMLElement;
+    private _state;
+    private _wasLoadedCallbacks;
     constructor(element: HTMLElement);
     load(): Promise<boolean>;
     wasLoaded(): boolean;
     addWasLoadedCallback(callback: () => void): void;
-    private setBaseStyle;
-    private setLoadingStyle;
-    private setLoadedStyle;
+    private _setBaseStyle;
+    private _setLoadingStyle;
+    private _setLoadedStyle;
 }

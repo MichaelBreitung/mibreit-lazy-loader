@@ -6,7 +6,7 @@ import ElementLoader from './ElementLoader';
 import IElementInfo from '../interfaces/IElementInfo';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
-    private elementInfo;
+    private _elementInfo;
     constructor(element: HTMLElement);
     getHtmlElement(): HTMLElement;
     getWidth(): number;

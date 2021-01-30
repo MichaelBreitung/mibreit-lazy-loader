@@ -5,9 +5,9 @@
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 export default class ScrollLoader {
-    private lazyLoader;
-    private elementLocations;
+    private _lazyLoader;
+    private _elementLocations;
     constructor(lazyLoader: ILazyLoader, elementLocations: Array<IElementLocationInfo>);
     startLoader(): void;
-    private loadElementsWithinWindowRect;
+    private _loadElementsWithinWindowRect;
 }

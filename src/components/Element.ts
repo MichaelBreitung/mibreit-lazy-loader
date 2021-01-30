@@ -9,30 +9,30 @@ import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import ElementInfo from './ElementInfo';
 
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
-  private elementInfo: ElementInfo;
+  private _elementInfo: ElementInfo;
 
   constructor(element: HTMLElement) {
     super(element);
-    this.elementInfo = new ElementInfo(this.element);
+    this._elementInfo = new ElementInfo(this._element);
   }
 
   getHtmlElement(): HTMLElement {
-    return this.element;
+    return this._element;
   }
 
   getWidth(): number {
-    return this.elementInfo.getWidth();
+    return this._elementInfo.getWidth();
   }
 
   getHeight(): number {
-    return this.elementInfo.getHeight();
+    return this._elementInfo.getHeight();
   }
 
   getStyle(): string {
-    return this.elementInfo.getStyle();
+    return this._elementInfo.getStyle();
   }
 
   isElementWithinScrollArea(): boolean {
-    return this.elementInfo.isElementWithinScrollArea();
+    return this._elementInfo.isElementWithinScrollArea();
   }
 }

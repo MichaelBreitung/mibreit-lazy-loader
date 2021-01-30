@@ -5,8 +5,8 @@
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
-    protected surrogate: HTMLElement;
-    protected elementInfo: IElementLocationInfo & IElementInfo;
+    protected _surrogate: HTMLElement;
+    protected _elementInfo: IElementLocationInfo & IElementInfo;
     constructor(elementInfo: IElementLocationInfo & IElementInfo);
     wrap(elementHandle: HTMLElement): void;
     unwrap(): void;
@@ -14,5 +14,5 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
     getHeight(): number;
     getStyle(): string;
     isElementWithinScrollArea(): boolean;
-    private createSurrogate;
+    private _createSurrogate;
 }

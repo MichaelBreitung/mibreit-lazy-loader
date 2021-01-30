@@ -8,32 +8,32 @@ import IElementInfo from '../interfaces/IElementInfo';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 
 export default class ElementInfo implements IElementLocationInfo, IElementInfo {
-  private element: HTMLElement;
-  private width: number;
-  private height: number;
-  private originalElementStyle: string;
+  private _element: HTMLElement;
+  private _width: number;
+  private _height: number;
+  private _originalElementStyle: string;
 
   constructor(element: HTMLElement) {
-    this.element = element;
+    this._element = element;
     const originalStyle = DomTools.getAttribute(element, 'class');       
-    this.originalElementStyle = originalStyle ? originalStyle : '';    
-    this.width = parseInt(DomTools.getAttribute(element, 'width'));
-    this.height = parseInt(DomTools.getAttribute(element, 'height'));
+    this._originalElementStyle = originalStyle ? originalStyle : '';    
+    this._width = parseInt(DomTools.getAttribute(element, 'width'));
+    this._height = parseInt(DomTools.getAttribute(element, 'height'));
   }
 
   getWidth(): number {
-    return this.width;
+    return this._width;
   }
 
   getHeight(): number {
-    return this.height;
+    return this._height;
   }
 
   getStyle(): string {
-    return this.originalElementStyle;
+    return this._originalElementStyle;
   }
 
   isElementWithinScrollArea(): boolean {
-    return DomTools.isElementWithinWindow(this.element);
+    return DomTools.isElementWithinWindow(this._element);
   }
 }
