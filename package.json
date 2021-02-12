@@ -1,14 +1,16 @@
 {
   "name": "mibreit-lazy-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lazy loading of images and iframes with windowing mechanism",
-  "main": "lib/indexNpm.js",
+  "module": "lib/indexNpm.js",
+  "main": "lib/index.js",
   "types": "lib/indexNpm.d.ts",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --config webpack.config.js",
     "build:dev": "webpack --config webpack.config.dev.js",
     "build:npm": "webpack --config webpack.config.npm.js",
+    "build:npm-es6": "tsc && cd src && copyfiles ./**/*.css ../lib",
     "test": ""
   },
   "keywords": [
@@ -20,6 +22,7 @@
     "mibreit-dom-tools": "github:MichaelBreitung/mibreit-dom-tools"
   },
   "devDependencies": {
+    "copyfiles": "^2.4.1",
     "css-loader": "^5.0.1",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.14",

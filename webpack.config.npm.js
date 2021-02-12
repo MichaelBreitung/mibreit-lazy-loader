@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/indexNpm.ts',
   output: {
     path: path.resolve(__dirname, 'lib'),  
-    filename: './indexNpm.js',  
+    filename: './index.js',  
     libraryTarget: 'commonjs',
   },
   module: {
@@ -38,7 +38,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.js'],
   },
   optimization: {
     minimize: false,

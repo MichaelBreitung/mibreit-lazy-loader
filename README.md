@@ -39,6 +39,42 @@ A call to _mibreitLazyLoader.lazyLoad_ will return an instance of _LazyLoader_, 
 - _async loadElement(index: number) : Promise< boolean >_ - loads a specific image (does not move the window)
 - _getUnloadedElementIndices() : Array< number >_ - Retrieve an array of all the indices of the unloaded elements. Those indices can be used as input for _setCurrentIndex_ or _loadElement_ 
 
+## NPM
+
+Under lib you will also find a ready npm version of the lib. You can directly use it by installing: _npm i github:MichaelBreitung/mibreit-lazy-loader_
+
+There are two targets included:
+- ES6 version under _module_
+- commonjs version under _main_
+
+Configure your bundler appropriately to use the version you need. Webpack, by default, will use the _module_ version over the _main_ target. If you use it like that, tree-shaking will work properly. But what you have to do is setup the following style-loader rule in order for Webpack to properly resolve the dependencies:
+
+````
+{
+  {
+    test: /\.css?$/,
+    use: [
+      {
+        loader: 'style-loader',
+        options: {
+          injectType: 'singletonStyleTag',
+        },
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          modules: {
+            localIdentName: '[local]',
+          },
+        },
+      },
+    ],
+    include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules/mibreit-lazy-loader')],
+  }
+````
+
+Make sure to install _style-loader_ and _css-loader_ for this to work.
+
 ## Resources
 
 - Repaints and Reflows point 6 and 7 - https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance/
