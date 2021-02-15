@@ -1,6 +1,6 @@
 {
   "name": "mibreit-lazy-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lazy loading of images and iframes with windowing mechanism",
   "module": "lib/indexNpm.js",
   "main": "lib/index.js",

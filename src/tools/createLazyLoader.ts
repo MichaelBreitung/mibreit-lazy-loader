@@ -24,35 +24,32 @@ export type LazyLoaderConfig = {
   useSurrogate?: boolean;
 };
 
-export function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader {
-  if (config.useSurrogate) {
-    for (let i = 0; i < elements.length; i++) {
-      const surrogate = new ElementSurrogate(elements[i]);
-      surrogate.wrap(elements[i].getHtmlElement());
-      elements[i].addWasLoadedCallback(() => {
-        surrogate.unwrap();
-      });
-    }
+function checkElementSelectorInput(elementSelector: string) {
+  if (typeof elementSelector !== 'string') {
+    throw new Error('createLazyLoader - first parameter needs to be a css selector string');
   }
-  
-  const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
-
-  startLoader(lazyLoader, elements, config.mode);
-
-  return lazyLoader;
 }
 
-export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
-  const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(elementSelector);
-  const elements: Array<Element> = [];
-  for (let i = 0; i < htmlElements.length; i++) {
-    const element = new Element(htmlElements[i]);
-    elements.push(element);
+function checkConfig(config: LazyLoaderConfig) {
+  if (typeof config.preloaderAfterSize !== 'undefined' && typeof config.preloaderAfterSize !== 'number') {
+    throw new Error('createLazyLoader - preloaderAfterSize of config must be a number');
   }
-  return createLazyLoaderFromElements(elements, config);
+  if (typeof config.preloaderBeforeSize !== 'undefined' && typeof config.preloaderBeforeSize !== 'number') {
+    throw new Error('createLazyLoader - preloaderBeforeSize of config must be a number');
+  }
+  if (typeof config.mode !== 'undefined' && typeof config.mode !== 'number') {
+    throw new Error('createLazyLoader - mode of config must be a number (0, 1, 2) - use type ELazyMode');
+  }
+  if (typeof config.useSurrogate !== 'undefined' && typeof config.useSurrogate !== 'boolean') {
+    throw new Error('createLazyLoader - useSurrogate of config must be a boolean');
+  }
 }
 
-function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>, mode: ELazyMode = ELazyMode.SIMPLE_DEFER) {
+function startLoader(
+  loader: ILazyLoader,
+  elements: Array<IElementLocationInfo>,
+  mode: ELazyMode = ELazyMode.SIMPLE_DEFER
+) {
   if (mode != null) {
     switch (mode) {
       case ELazyMode.WINDOWED_EXTERNAL:
@@ -69,4 +66,34 @@ function startLoader(loader: ILazyLoader, elements: Array<IElementLocationInfo>,
         break;
     }
   }
+}
+
+export function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader {
+  checkConfig(config);
+
+  if (config.useSurrogate) {
+    for (let i = 0; i < elements.length; i++) {
+      const surrogate = new ElementSurrogate(elements[i]);
+      surrogate.wrap(elements[i].getHtmlElement());
+      elements[i].addWasLoadedCallback(() => {
+        surrogate.unwrap();
+      });
+    }
+  }
+  const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
+
+  startLoader(lazyLoader, elements, config.mode);
+
+  return lazyLoader;
+}
+
+export default function (elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
+  checkElementSelectorInput(elementSelector);
+  const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(elementSelector);
+  const elements: Array<Element> = [];
+  for (let i = 0; i < htmlElements.length; i++) {
+    const element = new Element(htmlElements[i]);
+    elements.push(element);
+  }
+  return createLazyLoaderFromElements(elements, config);
 }
