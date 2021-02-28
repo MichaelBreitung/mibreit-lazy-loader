@@ -14,11 +14,16 @@ export default class ElementInfo implements IElementLocationInfo, IElementInfo {
   private _originalElementStyle: string;
 
   constructor(element: HTMLElement) {
+    const width = DomTools.getAttribute(element, 'width');
+    const height = DomTools.getAttribute(element, 'height');
+    if (width == null || height == null) {
+      throw new Error('ElementInfo#constructor - supported elements need a width and height property');
+    }
+    const originalStyle = DomTools.getAttribute(element, 'class');
     this._element = element;
-    const originalStyle = DomTools.getAttribute(element, 'class');       
-    this._originalElementStyle = originalStyle ? originalStyle : '';    
-    this._width = parseInt(DomTools.getAttribute(element, 'width'));
-    this._height = parseInt(DomTools.getAttribute(element, 'height'));
+    this._originalElementStyle = originalStyle ? originalStyle : '';
+    this._width = parseInt(width);
+    this._height = parseInt(height);
   }
 
   getWidth(): number {

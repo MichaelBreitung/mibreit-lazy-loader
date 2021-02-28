@@ -34,7 +34,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
 
   load(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      if (this._state === EImageState.INACTIVE) {
+      if (this._state == EImageState.INACTIVE) {
         this._element.onload = () => {
           DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
           this._state = EImageState.LOADED;
@@ -54,6 +54,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
         this._state = EImageState.LOADING;
         this._setLoadingStyle();
         const dataSrc = DomTools.getAttribute(this._element, DATA_SRC_ATTRIBUTE);
+        // @ts-ignore - if state is inactive we know that an element has a data source
         DomTools.setAttribute(this._element, SRC_ATTRIBUTE, dataSrc);
       } else if (this._state === EImageState.LOADING) {
         reject(false);
