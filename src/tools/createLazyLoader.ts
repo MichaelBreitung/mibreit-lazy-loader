@@ -10,11 +10,16 @@ import ElementSurrogate from '../components/ElementSurrogate';
 import ScrollLoader from '../components/ScrollLoader';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import { DomTools } from 'mibreit-dom-tools';
+import debounce from './debounce';
+
+// constants
+const RESIZE_EVENT_TIMEOUT = 400;
 
 export enum ELazyMode {
   SIMPLE_DEFER,
   WINDOWED_EXTERNAL,
   WINDOWED_SCROLL,
+  WINDOWED_SCROLL_HORIZONTAL,
 }
 
 export type LazyLoaderConfig = {
@@ -57,6 +62,7 @@ function startLoader(
         loader.setCurrentIndex(0);
         break;
       case ELazyMode.WINDOWED_SCROLL:
+      case ELazyMode.WINDOWED_SCROLL_HORIZONTAL:
         const scrollLoader = new ScrollLoader(loader, elements);
         scrollLoader.startLoader();
         break;
@@ -70,16 +76,30 @@ function startLoader(
 
 export function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader {
   checkConfig(config);
-
+  const surrogates: Array<ElementSurrogate> = [];
   if (config.useSurrogate) {
     for (let i = 0; i < elements.length; i++) {
-      const surrogate = new ElementSurrogate(elements[i]);
+      const surrogate = new ElementSurrogate(elements[i], config.mode == ELazyMode.WINDOWED_SCROLL_HORIZONTAL);
       surrogate.wrap(elements[i].getHtmlElement());
       elements[i].addWasLoadedCallback(() => {
         surrogate.unwrap();
       });
+      surrogates.push(surrogate);
     }
   }
+
+  if (config.mode == ELazyMode.WINDOWED_SCROLL_HORIZONTAL) {
+    const debouncedResizeEvent = debounce(() => {
+      surrogates.forEach((surrogate) => {
+        surrogate.resize(true);
+      });
+    }, RESIZE_EVENT_TIMEOUT);
+
+    DomTools.addResizeEventListener(() => {
+      debouncedResizeEvent();
+    });
+  }
+
   const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
 
   startLoader(lazyLoader, elements, config.mode);

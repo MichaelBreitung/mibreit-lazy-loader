@@ -6,13 +6,13 @@
 import { DomTools } from 'mibreit-dom-tools';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
-import debounce from '../tools/debounce'
+import debounce from '../tools/debounce';
 
 // avoid overloading of scroll event
 const SCROLL_EVENT_TIMEOUT = 400;
 
 export default class ScrollLoader {
-  private _lazyLoader: ILazyLoader;  
+  private _lazyLoader: ILazyLoader;
   private _elementLocations: Array<IElementLocationInfo> = [];
 
   constructor(lazyLoader: ILazyLoader, elementLocations: Array<IElementLocationInfo>) {
@@ -22,7 +22,9 @@ export default class ScrollLoader {
 
   startLoader() {
     this._loadElementsWithinWindowRect();
-    const debouncedLoadEvent = debounce(() => {this._loadElementsWithinWindowRect();}, SCROLL_EVENT_TIMEOUT);
+    const debouncedLoadEvent = debounce(() => {
+      this._loadElementsWithinWindowRect();
+    }, SCROLL_EVENT_TIMEOUT);
     DomTools.addScrollEventListener((_event: Event) => {
       debouncedLoadEvent();
     });
