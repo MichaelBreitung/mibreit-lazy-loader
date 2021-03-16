@@ -18,8 +18,7 @@ const RESIZE_EVENT_TIMEOUT = 400;
 export enum ELazyMode {
   SIMPLE_DEFER,
   WINDOWED_EXTERNAL,
-  WINDOWED_SCROLL,
-  WINDOWED_SCROLL_HORIZONTAL,
+  WINDOWED_SCROLL
 }
 
 export type LazyLoaderConfig = {
@@ -27,6 +26,7 @@ export type LazyLoaderConfig = {
   preloaderAfterSize?: number;
   mode?: ELazyMode;
   useSurrogate?: boolean;
+  surrogateModeHorizontal?: boolean;
 };
 
 function checkElementSelectorInput(elementSelector: string) {
@@ -48,6 +48,10 @@ function checkConfig(config: LazyLoaderConfig) {
   if (typeof config.useSurrogate !== 'undefined' && typeof config.useSurrogate !== 'boolean') {
     throw new Error('createLazyLoader - useSurrogate of config must be a boolean');
   }
+  if (typeof config.surrogateModeHorizontal !== 'undefined' && typeof config.surrogateModeHorizontal !== 'boolean')
+  {
+    throw new Error('createLazyLoader - surrogateModeHorizontal of config must be a boolean');
+  }
 }
 
 function startLoader(
@@ -61,8 +65,7 @@ function startLoader(
         loader.loadElement(0);
         loader.setCurrentIndex(0);
         break;
-      case ELazyMode.WINDOWED_SCROLL:
-      case ELazyMode.WINDOWED_SCROLL_HORIZONTAL:
+      case ELazyMode.WINDOWED_SCROLL:     
         const scrollLoader = new ScrollLoader(loader, elements);
         scrollLoader.startLoader();
         break;
@@ -79,7 +82,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
   const surrogates: Array<ElementSurrogate> = [];
   if (config.useSurrogate) {
     for (let i = 0; i < elements.length; i++) {
-      const surrogate = new ElementSurrogate(elements[i], config.mode == ELazyMode.WINDOWED_SCROLL_HORIZONTAL);
+      const surrogate = new ElementSurrogate(elements[i], config.surrogateModeHorizontal);
       surrogate.wrap(elements[i].getHtmlElement());
       elements[i].addWasLoadedCallback(() => {
         surrogate.unwrap();
@@ -88,7 +91,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
     }
   }
 
-  if (config.mode == ELazyMode.WINDOWED_SCROLL_HORIZONTAL) {
+  if (config.surrogateModeHorizontal == true) {
     const debouncedResizeEvent = debounce(() => {
       surrogates.forEach((surrogate) => {
         surrogate.resize(true);
