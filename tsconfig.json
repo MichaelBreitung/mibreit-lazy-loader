@@ -8,6 +8,7 @@
     "declaration": true,
     "moduleResolution": "node",
     "strictNullChecks": true,
+    "lib": ["es6", "dom"],
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src"],

@@ -9,7 +9,7 @@ export declare enum ELazyMode {
     WINDOWED_EXTERNAL = 1,
     WINDOWED_SCROLL = 2
 }
-export declare type LazyLoaderConfig = {
+export type LazyLoaderConfig = {
     preloaderBeforeSize?: number;
     preloaderAfterSize?: number;
     mode?: ELazyMode;
