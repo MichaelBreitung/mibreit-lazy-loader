@@ -8,7 +8,9 @@ import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import styles from './ElementLoader.module.css';
 
-export const LAZY_LOADING_CLASS = 'lazy-loading';
+const LAZY_LOADING_CLASS = 'lazy-loading';
+const DATA_SRC_ATTRIBUTE = "data-src";
+const SRC_ATTRIBUTE ="src";
 
 enum EImageState {
   INACTIVE,
@@ -20,11 +22,14 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   protected _element: HTMLElement;
   private _state: EImageState = EImageState.INACTIVE;
   private _wasLoadedCallbacks: Array<() => void> = new Array();
+  private _dataSrc: string | null = null;
 
   constructor(element: HTMLElement) {
     this._element = element;
+    this._dataSrc = DomTools.getAttribute(element, DATA_SRC_ATTRIBUTE);
     const classes = DomTools.getCssClasses(element)?.split(',');
-    if (classes && classes.includes(LAZY_LOADING_CLASS)) {
+
+    if (this._dataSrc || (classes && classes.includes(LAZY_LOADING_CLASS))) {
       this._state = EImageState.INACTIVE;
       this._setBaseStyle();
     } else {
@@ -39,6 +44,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
     return new Promise((resolve, reject) => {
       if (this._state == EImageState.INACTIVE) {
         this._element.onload = () => {
+          DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
           this._state = EImageState.LOADED;
           this._wasLoadedCallbacks.forEach((callback) => {
             callback();
@@ -53,7 +59,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
           }, 50);
           resolve(true);
         };
-        DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
+        this._triggerLoad();
         this._state = EImageState.LOADING;
         this._setLoadingStyle();
       } else if (this._state === EImageState.LOADING) {
@@ -72,6 +78,13 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
     if (!this._wasLoadedCallbacks.includes(callback)) {
       this._wasLoadedCallbacks.push(callback);
     }
+  }
+
+  private _triggerLoad() {
+    if (this._dataSrc) {
+      DomTools.setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
+    } 
+    DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
   }
 
   private _setBaseStyle() {
