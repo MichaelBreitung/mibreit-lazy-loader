@@ -4,8 +4,7 @@
  */
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
-export declare const DATA_SRC_ATTRIBUTE = "data-src";
-export declare const SRC_ATTRIBUTE = "src";
+export declare const LAZY_LOADING_CLASS = "lazy-loading";
 export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
     protected _element: HTMLElement;
     private _state;

@@ -8,8 +8,7 @@ import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import styles from './ElementLoader.module.css';
 
-export const DATA_SRC_ATTRIBUTE = 'data-src';
-export const SRC_ATTRIBUTE = 'src';
+export const LAZY_LOADING_CLASS = 'lazy-loading';
 
 enum EImageState {
   INACTIVE,
@@ -18,44 +17,45 @@ enum EImageState {
 }
 
 export default class ElementLoader implements IElementLoader, IElementLoaderInfo {
-  protected _element: HTMLElement;  
+  protected _element: HTMLElement;
   private _state: EImageState = EImageState.INACTIVE;
   private _wasLoadedCallbacks: Array<() => void> = new Array();
 
   constructor(element: HTMLElement) {
     this._element = element;
-    if (!DomTools.hasAttribute(element, DATA_SRC_ATTRIBUTE)) {
-      this._state = EImageState.LOADED;
-    } else {
+    const classes = DomTools.getCssClasses(element)?.split(',');
+    if (classes && classes.includes(LAZY_LOADING_CLASS)) {
       this._state = EImageState.INACTIVE;
       this._setBaseStyle();
+    } else {
+      this._state = EImageState.LOADED;
     }
+
+    console.log('ElementLoader#constructor -> state', this._state);
   }
 
   load(): Promise<boolean> {
+    console.log('ElementLoader#load');
     return new Promise((resolve, reject) => {
       if (this._state == EImageState.INACTIVE) {
         this._element.onload = () => {
-          DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
           this._state = EImageState.LOADED;
           this._wasLoadedCallbacks.forEach((callback) => {
             callback();
           });
-          // A little explanation for the timeout: we need to decouple the 
+          // A little explanation for the timeout: we need to decouple the
           // change of the load style and the fade it will trigger from the
           // change to the dom that might be triggered by the callbacks
           // -> this needs to happen separately and a timeout helps to provide
           // this separation
           setTimeout(() => {
             this._setLoadedStyle();
-          }, 50);          
+          }, 50);
           resolve(true);
         };
+        DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
         this._state = EImageState.LOADING;
         this._setLoadingStyle();
-        const dataSrc = DomTools.getAttribute(this._element, DATA_SRC_ATTRIBUTE);
-        // @ts-ignore - if state is inactive we know that an element has a data source
-        DomTools.setAttribute(this._element, SRC_ATTRIBUTE, dataSrc);
       } else if (this._state === EImageState.LOADING) {
         reject(false);
       } else {
@@ -83,9 +83,9 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   }
 
   private _setLoadedStyle() {
-    DomTools.removeCssStyle(this._element, 'opacity');    
+    DomTools.removeCssStyle(this._element, 'opacity');
     setTimeout(() => {
-      DomTools.removeCssClass(this._element, styles.element_animate);      
+      DomTools.removeCssClass(this._element, styles.element_animate);
     }, 1000);
   }
 }

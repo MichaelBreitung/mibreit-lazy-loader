@@ -9,12 +9,10 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
     protected _surrogate: HTMLElement;
     protected _element: Element;
     constructor(element: Element, horizontal?: boolean);
-    wrap(elementHandle: HTMLElement): void;
-    unwrap(): void;
     getWidth(): number;
     getHeight(): number;
     getStyle(): string;
     isElementWithinScrollArea(): boolean;
-    resize(horizontal: boolean): void;
+    private _resize;
     private _createSurrogate;
 }

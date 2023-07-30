@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta name="copyright" content="Michael Breitung"/>
-    <meta name="author" content="Michael Breitung"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="copyright" content="Michael Breitung" />
+    <meta name="author" content="Michael Breitung" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Landscape Photography by Michael Breitung</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #container {
         position: relative;
@@ -15,22 +14,60 @@
         margin-right: auto;
         overflow: hidden;
       }
-      #container > iframe {        
-        width: 100%;          
+      #container > iframe {
+        width: 100%;
+      }
+      #container .lazy-loading {
+        display: none;
       }
     </style>
   </head>
   <body>
     <div id="container">
-      <iframe width="1080" height="608" src="about:blank" data-src="https://www.youtube-nocookie.com/embed/OSOj5WzHCxs" allowfullscreen></iframe>
-      <iframe width="1080" height="608" src="about:blank" data-src="https://www.youtube-nocookie.com/embed/ytvmWI1U074?ecver=1" allowfullscreen></iframe>
-      <iframe width="1080" height="608" src="about:blank" data-src="https://www.youtube-nocookie.com/embed/OUtGasJH2FA?ecver=1" allowfullscreen></iframe>
-      <iframe width="1080" height="608" src="about:blank" data-src="https://www.youtube-nocookie.com/embed/MNJcOhcHqnU" allowfullscreen></iframe>
-      <iframe width="1080" height="608" src="about:blank" data-src="https://www.youtube-nocookie.com/embed/JMTvzR35-kE" allowfullscreen></iframe>           
+      <iframe
+        loading="lazy"
+        class="lazy-loading"
+        width="1080"
+        height="608"
+        src="https://www.youtube-nocookie.com/embed/OSOj5WzHCxs"
+        allowffullscreen
+      ></iframe>
+      <iframe
+        loading="lazy"
+        class="lazy-loading"
+        width="1080"
+        height="608"
+        src="https://www.youtube-nocookie.com/embed/ytvmWI1U074?ecver=1"
+        allowfullscreen
+      ></iframe>
+      <iframe
+        loading="lazy"
+        class="lazy-loading"
+        width="1080"
+        height="608"
+        src="https://www.youtube-nocookie.com/embed/OUtGasJH2FA?ecver=1"
+        allowfullscreen
+      ></iframe>
+      <iframe
+        loading="lazy"
+        class="lazy-loading"
+        width="1080"
+        height="608"
+        src="https://www.youtube-nocookie.com/embed/MNJcOhcHqnU"
+        allowfullscreen
+      ></iframe>
+      <iframe
+        loading="lazy"
+        class="lazy-loading"
+        width="1080"
+        height="608"
+        src="https://www.youtube-nocookie.com/embed/JMTvzR35-kE"
+        allowfullscreen
+      ></iframe>
     </div>
   </body>
   <script src="../dist/mibreit-lazy-loader/mibreitLazyLoader.min.js" type="text/javascript"></script>
   <script>
-    mibreitLazyLoader.createLazyLoader("#container iframe", {mode: mibreitLazyLoader.ELazyMode.WINDOWED_SCROLL, useSurrogate: true});
+    mibreitLazyLoader.createLazyLoader('.lazy-loading', { mode: mibreitLazyLoader.ELazyMode.WINDOWED_SCROLL });
   </script>
 </html>

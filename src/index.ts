@@ -4,4 +4,3 @@
  */
 
 export * from './tools/createLazyLoader';
-export { default as createLazyLoader } from './tools/createLazyLoader';

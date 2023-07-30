@@ -15,15 +15,11 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
   constructor(element: Element, horizontal: boolean = false) {
     this._element = element;
     this._surrogate = this._createSurrogate(horizontal);
-  }
-
-  wrap(elementHandle: HTMLElement) {
-    DomTools.wrapElements([elementHandle], this._surrogate);
-  }
-
-  unwrap(): void {
-    DomTools.unwrapElements(this._surrogate);
-    DomTools.removeElement(this._surrogate);
+    DomTools.wrapElements([element.getHtmlElement()], this._surrogate); 
+    element.addWasLoadedCallback(() => {
+      DomTools.unwrapElements(this._surrogate);
+      DomTools.removeElement(this._surrogate);
+    });
   }
 
   getWidth(): number {
@@ -42,8 +38,9 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
     return DomTools.isElementWithinWindow(this._surrogate);
   }
 
-  resize(horizontal: boolean)
+  private _resize(horizontal: boolean)
   {
+    console.log("ElementSurrogate#resize",DomTools.getElementDimension(this._surrogate).height, this._element.getWidth(), this._element.getHeight());
     if (horizontal)
     {
       DomTools.addCssStyle(this._surrogate, "width", `${DomTools.getElementDimension(this._surrogate).height *
@@ -54,6 +51,7 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
   }
 
   private _createSurrogate(horizontal: boolean = false): HTMLElement {
+    console.log("ElementSurrogate#_createSurrogate", horizontal);
     const surrogate = DomTools.createElement('div');
     DomTools.addCssClass(surrogate, 'mibreit_lazyLoader_surrogate');
     if (horizontal) {
@@ -63,6 +61,10 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
           (this._element.getWidth()) / this._element.getHeight()
         }px; flex-shrink:0;`
       );
+
+      setTimeout(() => {
+        this._resize(true);
+      }, 0);
     } else {
       DomTools.overwriteCssStyles(
         surrogate,
