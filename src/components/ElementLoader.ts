@@ -42,26 +42,21 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   load(): Promise<boolean> {
     console.log('ElementLoader#load');
     return new Promise((resolve, reject) => {
-      if (this._state == EImageState.INACTIVE) {
+      if (this._state == EImageState.INACTIVE) {     
         this._element.onload = () => {
-          DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
-          this._state = EImageState.LOADED;
-          this._wasLoadedCallbacks.forEach((callback) => {
-            callback();
-          });
-          // A little explanation for the timeout: we need to decouple the
-          // change of the load style and the fade it will trigger from the
-          // change to the dom that might be triggered by the callbacks
-          // -> this needs to happen separately and a timeout helps to provide
-          // this separation
-          setTimeout(() => {
-            this._setLoadedStyle();
-          }, 50);
+          this._finishLoad();
           resolve(true);
         };
         this._triggerLoad();
         this._state = EImageState.LOADING;
         this._setLoadingStyle();
+        if (this._element instanceof HTMLImageElement && (this._element as HTMLImageElement).complete)
+        {
+          // images that have been cached don't trigger the onload event, so we manually trigger it
+          this._element.onload = null;
+          this._finishLoad();
+          resolve(true);
+        }
       } else if (this._state === EImageState.LOADING) {
         reject(false);
       } else {
@@ -85,6 +80,23 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
       DomTools.setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
     } 
     DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
+  }
+
+  private _finishLoad() {
+    console.log('ElementLoader#_finishLoad');
+    DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
+    this._state = EImageState.LOADED;
+    this._wasLoadedCallbacks.forEach((callback) => {
+      callback();
+    });
+    // A little explanation for the timeout: we need to decouple the
+    // change of the load style and the fade it will trigger from the
+    // change to the dom that might be triggered by the callbacks
+    // -> this needs to happen separately and a timeout helps to provide
+    // this separation
+    setTimeout(() => {
+      this._setLoadedStyle();
+    }, 50);
   }
 
   private _setBaseStyle() {

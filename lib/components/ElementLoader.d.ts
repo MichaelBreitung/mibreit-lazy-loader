@@ -14,6 +14,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
     wasLoaded(): boolean;
     addWasLoadedCallback(callback: () => void): void;
     private _triggerLoad;
+    private _finishLoad;
     private _setBaseStyle;
     private _setLoadingStyle;
     private _setLoadedStyle;
