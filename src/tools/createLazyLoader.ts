@@ -22,6 +22,7 @@ export type LazyLoaderConfig = {
   preloaderBeforeSize?: number;
   preloaderAfterSize?: number;
   mode?: ELazyMode;
+  useSurrogate?: boolean;
 };
 
 function checkElementSelectorInput(elementSelector: string) {
@@ -72,21 +73,25 @@ function startLoader(
 export function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader {
   checkConfig(config);
   console.log('createLazyLoaderFromElements', JSON.stringify(config));
-  const surrogates: Array<ElementSurrogate> = [];
-  if (config.mode === ELazyMode.WINDOWED_SCROLL || config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL) {
-    for (let i = 0; i < elements.length; i++) {
-      const surrogate = new ElementSurrogate(
-        elements[i],
-        config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false
-      );
-      surrogates.push(surrogate);
+  let elementLocations: Array<IElementLocationInfo> = elements;
+  if (config?.useSurrogate) {
+    const surrogates: Array<ElementSurrogate> = [];
+    if (config.mode === ELazyMode.WINDOWED_SCROLL || config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL) {
+      for (let i = 0; i < elements.length; i++) {
+        const surrogate = new ElementSurrogate(
+          elements[i],
+          config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false
+        );
+        surrogates.push(surrogate);
+      }
     }
+    elementLocations = surrogates;
   }
 
   const lazyLoader = new LazyLoader(elements, config.preloaderBeforeSize, config.preloaderAfterSize);
   // enqueing execution of startLoader -> to ensure that resize events from Surrogates are executed before
   setTimeout(() => {
-    startLoader(lazyLoader, config.mode, surrogates);
+    startLoader(lazyLoader, config.mode, elementLocations);
   }, 0);
   return lazyLoader;
 }

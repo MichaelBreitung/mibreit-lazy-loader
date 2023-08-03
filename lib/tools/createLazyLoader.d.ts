@@ -14,6 +14,7 @@ export type LazyLoaderConfig = {
     preloaderBeforeSize?: number;
     preloaderAfterSize?: number;
     mode?: ELazyMode;
+    useSurrogate?: boolean;
 };
 export declare function createLazyLoaderFromElements(elements: Array<Element>, config: LazyLoaderConfig): ILazyLoader;
 export declare function createLazyLoader(elementSelector: string, config: LazyLoaderConfig): ILazyLoader;
