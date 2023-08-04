@@ -40,14 +40,14 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', 'js'],
+    extensions: ['.ts', '.js'],
   },
   optimization: {
     minimize: true,
+    usedExports: true,
     minimizer: [
       new TerserPlugin({
-        terserOptions: {
-          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        terserOptions: {          
           mangle: {
             properties: {
               regex: /^_/,

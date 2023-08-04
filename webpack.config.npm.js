@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/indexNpm.ts',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'lib'),  
     filename: './index.js',  
@@ -12,7 +12,12 @@ module.exports = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
+        use: [{
+          loader: 'ts-loader',
+          options: {
+              configFile: "tsconfig.webpack.json"
+          }
+        }],
         exclude: /node_modules/,
       },
       {
