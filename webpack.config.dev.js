@@ -1,11 +1,15 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.ts',
+  entry: {
+    scripts: './src/index.ts', // Your TypeScript entry point
+    styles: './src/main.css', // Your CSS entry point
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: './mibreit-lazy-loader/mibreitLazyLoader.min.js',
+    filename: './[name]/mibreitLazyLoader.min.js',
     library: 'mibreitLazyLoader',
     libraryTarget: 'var',
   },
@@ -18,22 +22,7 @@ module.exports = {
       },
       {
         test: /\.css?$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              injectType: 'singletonStyleTag',
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]_[hash:base64:3]',
-              },
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
         exclude: /node_modules/,
       },
     ],
@@ -45,4 +34,5 @@ module.exports = {
   optimization: {
     minimize: false,
   },
+  plugins: [new MiniCssExtractPlugin({ filename: './styles/mibreitLazyLoader.css' })],
 };

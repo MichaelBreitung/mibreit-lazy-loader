@@ -19,27 +19,7 @@ module.exports = {
           }
         }],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css?$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              injectType: 'singletonStyleTag',
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]_[hash:base64:3]',
-              },
-            },
-          },
-        ],
-        exclude: /node_modules/,
-      },
+      }
     ],
   },
   resolve: {

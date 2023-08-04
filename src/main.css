@@ -1,4 +1,7 @@
-.element_animate {    
+.mibreit-Lazyloader_lazy {
+  display: none !important;
+}
+.mibreit-LazyLoader_ElementLoader_animate {    
   -webkit-transition: opacity 800ms ease-out;
   -moz-transition: opacity 800ms ease-out;
   -o-transition: opacity 800ms ease-out;

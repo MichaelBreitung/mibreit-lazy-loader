@@ -5,6 +5,7 @@
     <meta name="author" content="Michael Breitung" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../dist/styles/mibreitLazyLoader.css" type="text/css" />
     <style>
       #container {
         position: relative;
@@ -22,16 +23,13 @@
         width: auto;
         height: 100%;
       }
-      #container .lazy-loading {
-        display: none;
-      }
     </style>
   </head>
   <body>
     <div id="container">
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
         alt="Stubai Mountains"
         width="1280"
@@ -39,7 +37,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
         alt="Fantasia"
         width="1280"
@@ -47,7 +45,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
         alt="Secret Beach"
         width="1280"
@@ -55,7 +53,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Cuernos.jpg"
         title="Cuernos"
         alt="Cuernos"
@@ -64,7 +62,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
         alt="Revelation"
         width="1280"
@@ -72,7 +70,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
         alt="Stubai Mountains"
         width="1280"
@@ -80,7 +78,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
         alt="Fantasia"
         width="1280"
@@ -88,7 +86,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
         alt="Secret Beach"
         width="1280"
@@ -96,7 +94,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
         alt="Revelation"
         width="1280"
@@ -104,7 +102,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
         alt="Stubai Mountains"
         width="1280"
@@ -112,7 +110,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
         alt="Fantasia"
         width="1280"
@@ -120,7 +118,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
         alt="Secret Beach"
         width="1280"
@@ -128,7 +126,7 @@
       />
       <img
         loading="lazy"
-        class="lazy-loading"
+        class="mibreit-LazyLoader_lazy"
         src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
         alt="Revelation"
         width="1280"
@@ -136,9 +134,9 @@
       />
     </div>
   </body>
-  <script src="../dist/mibreit-lazy-loader/mibreitLazyLoader.min.js" type="text/javascript"></script>
+  <script src="../dist/scripts/mibreitLazyLoader.min.js" type="text/javascript"></script>
   <script>
-    mibreitLazyLoader.createLazyLoader('.lazy-loading', {
+    mibreitLazyLoader.createLazyLoader('.mibreit-LazyLoader_lazy', {
       mode: mibreitLazyLoader.ELazyMode.WINDOWED_SCROLL_HORIZONTAL,
       useSurrogate: true,
     });

@@ -98,6 +98,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
 
 export function createLazyLoader(elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
   checkElementSelectorInput(elementSelector);
+  console.log('createLazyLoader', elementSelector, JSON.stringify(config));
   const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(elementSelector);
   const elements: Array<Element> = [];
   for (let i = 0; i < htmlElements.length; i++) {

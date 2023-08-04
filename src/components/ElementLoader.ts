@@ -6,11 +6,11 @@
 import { DomTools } from 'mibreit-dom-tools';
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
-import styles from './ElementLoader.module.css';
 
-const LAZY_LOADING_CLASS = 'lazy-loading';
-const DATA_SRC_ATTRIBUTE = "data-src";
-const SRC_ATTRIBUTE ="src";
+const LAZY_LOADING_CLASS = 'mibreit-LazyLoader_lazy';
+const LAZY_LOADING_ANIMATE_CLASS = 'mibreit-LazyLoader_ElementLoader_animate';
+const DATA_SRC_ATTRIBUTE = 'data-src';
+const SRC_ATTRIBUTE = 'src';
 
 enum EImageState {
   INACTIVE,
@@ -42,7 +42,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   load(): Promise<boolean> {
     console.log('ElementLoader#load');
     return new Promise((resolve, reject) => {
-      if (this._state == EImageState.INACTIVE) {     
+      if (this._state == EImageState.INACTIVE) {
         this._element.onload = () => {
           this._finishLoad();
           resolve(true);
@@ -50,8 +50,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
         this._triggerLoad();
         this._state = EImageState.LOADING;
         this._setLoadingStyle();
-        if (this._element instanceof HTMLImageElement && (this._element as HTMLImageElement).complete)
-        {
+        if (this._element instanceof HTMLImageElement && (this._element as HTMLImageElement).complete) {
           // images that have been cached don't trigger the onload event, so we manually trigger it
           this._element.onload = null;
           this._finishLoad();
@@ -78,7 +77,7 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   private _triggerLoad() {
     if (this._dataSrc) {
       DomTools.setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
-    } 
+    }
     DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
   }
 
@@ -104,13 +103,13 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   }
 
   private _setLoadingStyle() {
-    DomTools.addCssClass(this._element, styles.element_animate);
+    DomTools.addCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
   }
 
   private _setLoadedStyle() {
     DomTools.removeCssStyle(this._element, 'opacity');
     setTimeout(() => {
-      DomTools.removeCssClass(this._element, styles.element_animate);
+      DomTools.removeCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
     }, 1000);
   }
 }
