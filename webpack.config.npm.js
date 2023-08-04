@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'lib'),  
-    filename: './index.js',  
+    filename: './index-commonjs.js',  
     libraryTarget: 'commonjs',
   },
   module: {
