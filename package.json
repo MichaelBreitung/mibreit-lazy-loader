@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.config.js",
     "build:dev": "webpack --config webpack.config.dev.js",
     "prebuild:npm": "rimraf lib/",
-    "build:npm": "webpack --config webpack.config.npm.js && tsc",
+    "build:npm": "webpack --config webpack.config.npm.js && tsc && node scripts/enableTreeShaking.js",
     "postbuild:npm": "copyfiles -u 1 src/**/*.svg src/**/*.css lib/"
   },
   "keywords": [
@@ -25,6 +25,7 @@
     "css-loader": "^6.7.2",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "mini-css-extract-plugin": "^2.7.6",
+    "replace-in-file": "^7.0.1",
     "rimraf": "^3.0.2",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
