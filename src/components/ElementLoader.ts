@@ -3,7 +3,16 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import { DomTools } from 'mibreit-dom-tools';
+import {
+  addCssClass,
+  addCssStyle,
+  getAttribute,
+  getCssClasses,
+  removeAttribute,
+  removeCssClass,
+  removeCssStyle,
+  setAttribute,
+} from 'mibreit-dom-tools';
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 
@@ -26,8 +35,8 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
 
   constructor(element: HTMLElement) {
     this._element = element;
-    this._dataSrc = DomTools.getAttribute(element, DATA_SRC_ATTRIBUTE);
-    const classes = DomTools.getCssClasses(element)?.split(',');
+    this._dataSrc = getAttribute(element, DATA_SRC_ATTRIBUTE);
+    const classes = getCssClasses(element)?.split(',');
 
     if (this._dataSrc || (classes && classes.includes(LAZY_LOADING_CLASS))) {
       this._state = EImageState.INACTIVE;
@@ -76,14 +85,14 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
 
   private _triggerLoad() {
     if (this._dataSrc) {
-      DomTools.setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
+      setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
     }
-    DomTools.removeCssClass(this._element, LAZY_LOADING_CLASS);
+    removeCssClass(this._element, LAZY_LOADING_CLASS);
   }
 
   private _finishLoad() {
     console.log('ElementLoader#_finishLoad');
-    DomTools.removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
+    removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
     this._state = EImageState.LOADED;
     this._wasLoadedCallbacks.forEach((callback) => {
       callback();
@@ -99,17 +108,17 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   }
 
   private _setBaseStyle() {
-    DomTools.addCssStyle(this._element, 'opacity', '0');
+    addCssStyle(this._element, 'opacity', '0');
   }
 
   private _setLoadingStyle() {
-    DomTools.addCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
+    addCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
   }
 
   private _setLoadedStyle() {
-    DomTools.removeCssStyle(this._element, 'opacity');
+    removeCssStyle(this._element, 'opacity');
     setTimeout(() => {
-      DomTools.removeCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
+      removeCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
     }, 1000);
   }
 }

@@ -3,7 +3,7 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import { DomTools } from 'mibreit-dom-tools';
+import { addScrollEventListener } from 'mibreit-dom-tools';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 import debounce from '../tools/debounce';
@@ -25,7 +25,7 @@ export default class ScrollLoader {
     const debouncedLoadEvent = debounce(() => {
       this._loadElementsWithinWindowRect();
     }, SCROLL_EVENT_TIMEOUT);
-    DomTools.addScrollEventListener((_event: Event) => {
+    addScrollEventListener((_event: Event) => {
       debouncedLoadEvent();
     });
   }

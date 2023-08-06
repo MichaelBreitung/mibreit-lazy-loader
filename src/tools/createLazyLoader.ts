@@ -9,7 +9,7 @@ import Element from '../components/Element';
 import ElementSurrogate from '../components/ElementSurrogate';
 import ScrollLoader from '../components/ScrollLoader';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
-import { DomTools } from 'mibreit-dom-tools';
+import { getElements } from 'mibreit-dom-tools';
 
 export enum ELazyMode {
   SIMPLE_DEFER,
@@ -99,7 +99,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
 export function createLazyLoader(elementSelector: string, config: LazyLoaderConfig): ILazyLoader {
   checkElementSelectorInput(elementSelector);
   console.log('createLazyLoader', elementSelector, JSON.stringify(config));
-  const htmlElements: NodeListOf<HTMLElement> = DomTools.getElements(elementSelector);
+  const htmlElements: NodeListOf<HTMLElement> = getElements(elementSelector);
   const elements: Array<Element> = [];
   for (let i = 0; i < htmlElements.length; i++) {
     const element = new Element(htmlElements[i]);
