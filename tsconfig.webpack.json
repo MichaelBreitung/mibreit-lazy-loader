@@ -2,12 +2,14 @@
   "compilerOptions": {
     "outDir": "./lib/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "CommonJS",
     "target": "es5",
     "allowJs": true,
-    "strict": true,
+    "declaration": true,
+    "strictNullChecks": true,
     "moduleResolution": "node",
+    "lib": ["es6", "dom"],
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["src"]
+  "include": ["src"],  
 }

@@ -64,7 +64,7 @@ export default class LazyLoader implements ILazyLoader {
               this._unloadedElementIndices.splice(location, 1);
             }
           }
-        } catch (wasLoaded) {
+        } catch (wasLoaded: any) {
           loaded = wasLoaded;
         }
       }

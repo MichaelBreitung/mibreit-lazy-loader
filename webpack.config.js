@@ -1,12 +1,17 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: {
+    scripts: './src/index.ts', // Your TypeScript entry point
+    styles: './src/main.css', // Your CSS entry point
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: './mibreit-lazy-loader/mibreitLazyLoader.min.js',
+    filename: './[name]/mibreitLazyLoader.min.js',
     library: 'mibreitLazyLoader',
     libraryTarget: 'var',
   },
@@ -19,35 +24,20 @@ module.exports = {
       },
       {
         test: /\.css?$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              injectType: 'singletonStyleTag',
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[local]_[hash:base64:3]',
-              },
-            },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', 'js'],
+    extensions: ['.ts', '.js'],
   },
   optimization: {
     minimize: true,
+    usedExports: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
           mangle: {
             properties: {
               regex: /^_/,
@@ -57,7 +47,9 @@ module.exports = {
             drop_console: true,
           },
         },
-      })
+      }),
+      new CssMinimizerPlugin(),
     ],
   },
+  plugins: [new MiniCssExtractPlugin({ filename: './styles/mibreitLazyLoader.css' })],
 };

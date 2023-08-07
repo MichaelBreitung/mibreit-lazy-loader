@@ -1,17 +1,16 @@
 {
   "name": "mibreit-lazy-loader",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "Lazy loading of images and iframes with windowing mechanism",
-  "module": "lib/indexNpm.js",
-  "main": "lib/index.js",
-  "types": "lib/indexNpm.d.ts",
+  "main": "lib/index-commonjs.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "start": "webpack-dev-server",
     "build": "webpack --config webpack.config.js",
     "build:dev": "webpack --config webpack.config.dev.js",
-    "build:npm": "webpack --config webpack.config.npm.js",
-    "build:npm-es6": "tsc && cd src && copyfiles ./**/*.css ../lib",
-    "test": ""
+    "prebuild:npm": "rimraf lib/",
+    "build:npm": "webpack --config webpack.config.npm.js && tsc && node scripts/enableTreeShaking.js",
+    "postbuild:npm": "copyfiles -u 1 src/**/*.svg src/**/*.css lib/"
   },
   "keywords": [
     "Typescript"
@@ -24,6 +23,10 @@
   "devDependencies": {
     "copyfiles": "^2.4.1",
     "css-loader": "^6.7.2",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "replace-in-file": "^7.0.1",
+    "rimraf": "^3.0.2",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
     "typescript": "^4.9.3",

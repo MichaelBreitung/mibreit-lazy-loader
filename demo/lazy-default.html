@@ -5,28 +5,27 @@
     <meta name="author" content="Michael Breitung" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../dist/styles/mibreitLazyLoader.css" type="text/css" />
+     <link rel="stylesheet" href="../dist/styles/mibreitLazyLoader.css" type="text/css" />
     <style>
-      #container {
+      .container {
         position: relative;
-        height: 25rem;
-        display: flex;
-        flex-direction: row;
+        width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
       }
-      #container > .mibreit_lazyLoader_surrogate {
-        margin-left: 0.25rem;
-        margin-right: 0.25rem;
+      .container img {
+        margin-top: 0.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        height: auto;
       }
-      #container > img {
-        margin-left: 0.25rem;
-        margin-right: 0.25rem;
-        width: auto;
-        height: 100%;
-      }
+
     </style>
   </head>
-  <body>
-    <div id="container">
+  <body style="display: flex">
+    <div class="container one">
       <img
         loading="lazy"
         class="mibreit-LazyLoader_lazy"
@@ -76,58 +75,53 @@
         width="1280"
         height="853"
       />
+    </div>
+    <div class="container two">
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
         alt="Fantasia"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
         alt="Secret Beach"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
         alt="Revelation"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
         alt="Stubai Mountains"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
         alt="Fantasia"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
         alt="Secret Beach"
         width="1280"
         height="853"
       />
       <img
-        loading="lazy"
-        class="mibreit-LazyLoader_lazy"
-        src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
+        src="https://www.mibreit-photo.com/images/image-placeholder-transparent.png"
+        data-src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
         alt="Revelation"
         width="1280"
         height="853"
@@ -136,9 +130,16 @@
   </body>
   <script src="../dist/scripts/mibreitLazyLoader.min.js" type="text/javascript"></script>
   <script>
-    mibreitLazyLoader.createLazyLoader('.mibreit-LazyLoader_lazy', {
-      mode: mibreitLazyLoader.ELazyMode.WINDOWED_SCROLL_HORIZONTAL,
-      useSurrogate: true,
+    mibreitLazyLoader.createLazyLoader('.one .mibreit-LazyLoader_lazy', {
+      mode: mibreitLazyLoader.ELazyMode.WINDOWED_EXTERNAL,
+      preloaderBeforeSize: 1,
+      preloaderAfterSize: 2,
+    });
+
+    mibreitLazyLoader.createLazyLoader('.two img', {
+      mode: mibreitLazyLoader.ELazyMode.WINDOWED_EXTERNAL,
+      preloaderBeforeSize: 2,
+      preloaderAfterSize: 3,
     });
   </script>
 </html>
