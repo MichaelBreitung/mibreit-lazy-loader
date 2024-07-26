@@ -7,24 +7,24 @@ import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 
-const PRELOADER_WINDOW_SIZE = 5;
+const PRELOADER_WINDOW_RIGHT = 1;
 
 export default class LazyLoader implements ILazyLoader {
   private _currentIndex: number;
-  private _preloaderBeforeSize: number;
-  private _preloaderAfterSize: number;  
+  private _loaderWindowLeft: number;
+  private _loaderWindowRight: number;
   private _unloadedElementIndices: Array<number> = [];
   private _elementLoaders: Array<IElementLoader & IElementLoaderInfo>;
 
   constructor(
     elementLoaders: Array<IElementLoader & IElementLoaderInfo>,
-    preloaderBeforeSize: number = 0,
-    preloaderAfterSize: number = PRELOADER_WINDOW_SIZE
+    loaderWindowLeft: number = 0,
+    loaderWindowRight: number = PRELOADER_WINDOW_RIGHT
   ) {
     this._currentIndex = -1;
     this._elementLoaders = elementLoaders;
-    this._preloaderBeforeSize = preloaderBeforeSize;
-    this._preloaderAfterSize = preloaderAfterSize;
+    this._loaderWindowLeft = loaderWindowLeft;
+    this._loaderWindowRight = loaderWindowRight;
     this._updateUnloadedElementIndices();
   }
 
@@ -47,15 +47,13 @@ export default class LazyLoader implements ILazyLoader {
    *         or will resolve right away with false, if the Element is in loading state;
    *         It will reject an invalid index with a error message
    */
-  async loadElement(index: number): Promise<boolean> {    
+  async loadElement(index: number): Promise<boolean> {
     if (index >= 0 && index < this._elementLoaders.length) {
       let loaded = false;
-      if (!this._unloadedElementIndices.includes(index))
-      {
+      if (!this._unloadedElementIndices.includes(index)) {
         loaded = true;
-      }
-      else{        
-        console.log("LazyLoader#loadElement - index: ", index);
+      } else {
+        console.log('LazyLoader#loadElement - index: ', index);
         try {
           loaded = await this._elementLoaders[index].load();
           if (loaded) {
@@ -74,8 +72,7 @@ export default class LazyLoader implements ILazyLoader {
     }
   }
 
-  getElementLoaderInfos(): Array<IElementLoaderInfo>
-  {
+  getElementLoaderInfos(): Array<IElementLoaderInfo> {
     return this._elementLoaders;
   }
 
@@ -85,8 +82,9 @@ export default class LazyLoader implements ILazyLoader {
 
   private _moveWindow() {
     if (this._unloadedElementIndices.length) {
-      let start = this._currentIndex - this._preloaderBeforeSize;
-      let end = this._currentIndex + this._preloaderAfterSize;
+      let start = this._currentIndex - this._loaderWindowLeft;
+      // we add + 1 in the middle to encompass the current element. The window settings surround that element
+      let end = this._currentIndex + 1 + this._loaderWindowRight;
 
       // 1) load from current Element forward
       this._loadElements(this._currentIndex, end < this._elementLoaders.length ? end : this._elementLoaders.length);

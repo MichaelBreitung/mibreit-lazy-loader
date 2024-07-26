@@ -14,6 +14,7 @@ import {
   unwrapElements,
   wrapElements,
 } from 'mibreit-dom-tools';
+
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
 import Element from './Element';

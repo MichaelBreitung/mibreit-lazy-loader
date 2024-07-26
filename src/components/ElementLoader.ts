@@ -16,8 +16,8 @@ import {
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 
-const LAZY_LOADING_CLASS = 'mibreit-LazyLoader_lazy';
-const LAZY_LOADING_ANIMATE_CLASS = 'mibreit-LazyLoader_ElementLoader_animate';
+const LAZY_LOADING_CLASS = 'mbll__marker';
+const LAZY_LOADING_ANIMATE_CLASS = 'mbll__transition';
 const DATA_SRC_ATTRIBUTE = 'data-src';
 const SRC_ATTRIBUTE = 'src';
 

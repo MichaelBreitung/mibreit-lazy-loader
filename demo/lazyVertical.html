@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="copyright" content="Michael Breitung" />
+    <meta name="author" content="Michael Breitung" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #container {
+        position: relative;
+        width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
+      }
+      #container img {
+        display: block;
+        margin-top: 0.5rem;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        height: auto;
+      }
+      .mbll__marker {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
+        alt="Stubai Mountains"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
+        alt="Fantasia"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
+        alt="Secret Beach"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Cuernos.jpg"
+        title="Cuernos"
+        alt="Cuernos"
+        width="720"
+        height="1080"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
+        alt="Revelation"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
+        alt="Stubai Mountains"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
+        alt="Fantasia"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
+        alt="Secret Beach"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
+        alt="Revelation"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Stubai-Mountains.jpg"
+        alt="Stubai Mountains"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Fantasia.jpg"
+        alt="Fantasia"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Secret-Beach-Blues.jpg"
+        alt="Secret Beach"
+        width="1280"
+        height="853"
+      />
+      <img
+        loading="lazy"
+        class="mbll__marker"
+        src="https://www.mibreit-photo.com/galleries/favorites/images/Revelation.jpg"
+        alt="Revelation"
+        width="1280"
+        height="853"
+      />
+    </div>
+  </body>
+  <script type="module">
+    import { createLazyLoader, ELazyMode } from '/src/index.ts';
+    createLazyLoader('#container .mbll__marker', {
+      mode: ELazyMode.WINDOWED_SCROLL,
+      useSurrogate: true,
+    });
+  </script>
+</html>

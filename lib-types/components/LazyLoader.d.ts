@@ -7,11 +7,11 @@ import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 export default class LazyLoader implements ILazyLoader {
     private _currentIndex;
-    private _preloaderBeforeSize;
-    private _preloaderAfterSize;
+    private _loaderWindowLeft;
+    private _loaderWindowRight;
     private _unloadedElementIndices;
     private _elementLoaders;
-    constructor(elementLoaders: Array<IElementLoader & IElementLoaderInfo>, preloaderBeforeSize?: number, preloaderAfterSize?: number);
+    constructor(elementLoaders: Array<IElementLoader & IElementLoaderInfo>, loaderWindowLeft?: number, loaderWindowRight?: number);
     loadAll(): void;
     setCurrentIndex(newIndex: number): void;
     /**
