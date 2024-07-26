@@ -1,37 +1,25 @@
 {
   "name": "mibreit-lazy-loader",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Lazy loading of images and iframes with windowing mechanism",
-  "main": "lib/index-commonjs.js",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "type": "module",
+  "module": "lib/index.wc.js",
+  "types": "lib-types",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "build:dev": "webpack --config webpack.config.dev.js",
-    "prebuild:npm": "rimraf lib/",
-    "build:npm": "webpack --config webpack.config.npm.js && tsc && node scripts/enableTreeShaking.js",
-    "postbuild:npm": "copyfiles -u 1 src/**/*.svg src/**/*.css lib/"
+    "dev": "vite",
+    "test": "vitest run",
+    "build": "tsc --build --clean && tsc && vite build"
   },
-  "keywords": [
-    "Typescript"
-  ],
+  "devDependencies": {
+    "@rollup/plugin-strip": "^3.0.4",
+    "puppeteer": "^22.12.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vitest": "^1.6.0"
+  },
   "author": "Michael Breitung",
   "license": "BSD-2-Clause",
   "dependencies": {
     "mibreit-dom-tools": "github:MichaelBreitung/mibreit-dom-tools"
-  },
-  "devDependencies": {
-    "copyfiles": "^2.4.1",
-    "css-loader": "^6.7.2",
-    "css-minimizer-webpack-plugin": "^5.0.1",
-    "mini-css-extract-plugin": "^2.7.6",
-    "replace-in-file": "^7.0.1",
-    "rimraf": "^3.0.2",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.4.1",
-    "typescript": "^4.9.3",
-    "typescript-plugin-css-modules": "^5.0.1",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^4.10.0"
   }
 }

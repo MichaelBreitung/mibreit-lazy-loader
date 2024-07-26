@@ -4,7 +4,6 @@
     <meta name="copyright" content="Michael Breitung" />
     <meta name="author" content="Michael Breitung" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       #container {
@@ -16,6 +15,9 @@
       }
       #container > iframe {
         width: 100%;
+      }
+      .mbll__marker {
+        display: none;
       }
     </style>
   </head>
@@ -58,10 +60,10 @@
       ></iframe>
     </div>
   </body>
-  <script src="../dist/scripts/mibreitLazyLoader.min.js" type="text/javascript"></script>
-  <script>
-    mibreitLazyLoader.createLazyLoader('#container iframe', {
-      mode: mibreitLazyLoader.ELazyMode.WINDOWED_SCROLL,
+  <script type="module">
+    import { createLazyLoader, ELazyMode } from '/src/index.ts';
+    createLazyLoader('#container iframe', {
+      mode: ELazyMode.WINDOWED_SCROLL,
       useSurrogate: true,
     });
   </script>
