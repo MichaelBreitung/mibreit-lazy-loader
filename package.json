@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Lazy loading of images and iframes with windowing mechanism",
   "type": "module",
+  "main": "lib-cjs/index.cjs",
   "module": "lib/index.js",
   "types": "lib-types",
   "scripts": {
