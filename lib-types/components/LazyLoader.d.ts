@@ -12,8 +12,8 @@ export default class LazyLoader implements ILazyLoader {
     private _unloadedElementIndices;
     private _elementLoaders;
     constructor(elementLoaders: Array<IElementLoader & IElementLoaderInfo>, loaderWindowLeft?: number, loaderWindowRight?: number);
-    loadAll(): void;
-    setCurrentIndex(newIndex: number): void;
+    loadAll(): Promise<void>;
+    setCurrentIndex(newIndex: number): Promise<void>;
     /**
      * Will directly load an Element without changing the window of loaded Elements. This
      * has to be handled separately by setCurrentIndex

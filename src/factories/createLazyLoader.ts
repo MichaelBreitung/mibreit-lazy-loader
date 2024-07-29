@@ -23,7 +23,7 @@ function checkElementSelectorInput(elementSelector: string) {
   }
 }
 
-function startLoader(
+async function startLoader(
   loader: ILazyLoader,
   mode: ELazyMode = ELazyMode.SIMPLE_DEFER,
   elementLocations: Array<IElementLocationInfo>
@@ -32,7 +32,7 @@ function startLoader(
   if (mode != null) {
     switch (mode) {
       case ELazyMode.WINDOWED_EXTERNAL:
-        loader.loadElement(0);
+        await loader.loadElement(0);
         loader.setCurrentIndex(0);
         break;
       case ELazyMode.WINDOWED_SCROLL:

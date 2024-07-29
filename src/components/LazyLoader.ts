@@ -28,14 +28,14 @@ export default class LazyLoader implements ILazyLoader {
     this._updateUnloadedElementIndices();
   }
 
-  loadAll() {
-    this._loadElements(0, this._elementLoaders.length);
+  async loadAll() {
+    await this._loadElements(0, this._elementLoaders.length);
   }
 
-  setCurrentIndex(newIndex: number) {
+  async setCurrentIndex(newIndex: number) {
     if (this._currentIndex != newIndex) {
       this._currentIndex = newIndex;
-      this._moveWindow();
+      await this._moveWindow();
     }
   }
 
@@ -80,31 +80,34 @@ export default class LazyLoader implements ILazyLoader {
     return this._unloadedElementIndices;
   }
 
-  private _moveWindow() {
+  private async _moveWindow() {
     if (this._unloadedElementIndices.length) {
       let start = this._currentIndex - this._loaderWindowLeft;
       // we add + 1 in the middle to encompass the current element. The window settings surround that element
       let end = this._currentIndex + 1 + this._loaderWindowRight;
 
       // 1) load from current Element forward
-      this._loadElements(this._currentIndex, end < this._elementLoaders.length ? end : this._elementLoaders.length);
+      await this._loadElements(
+        this._currentIndex,
+        end < this._elementLoaders.length ? end : this._elementLoaders.length
+      );
       // 2) load from back towards current Element
-      this._loadElements(start >= 0 ? start : 0, this._currentIndex);
+      await this._loadElements(start >= 0 ? start : 0, this._currentIndex);
       // 3) handle overflow
       if (start < 0) {
         start = this._elementLoaders.length + start;
-        this._loadElements(start, this._elementLoaders.length);
+        await this._loadElements(start, this._elementLoaders.length);
       }
       if (end >= this._elementLoaders.length) {
         end = end - this._elementLoaders.length;
-        this._loadElements(0, end);
+        await this._loadElements(0, end);
       }
     }
   }
 
-  private _loadElements(start: number, end: number) {
+  private async _loadElements(start: number, end: number) {
     for (let i = start < 0 ? 0 : start; i < end && i < this._elementLoaders.length; i++) {
-      this.loadElement(i);
+      await this.loadElement(i);
     }
   }
 

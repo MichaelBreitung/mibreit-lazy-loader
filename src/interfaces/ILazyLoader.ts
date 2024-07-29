@@ -4,11 +4,11 @@
  */
 
 export default interface ILazyLoader {
-  loadAll(): void;
-  
-  setCurrentIndex(newIndex: number): void;
-  
+  loadAll(): Promise<void>;
+
+  setCurrentIndex(newIndex: number): Promise<void>;
+
   loadElement(index: number): Promise<boolean>;
-  
+
   getUnloadedElementIndices(): Array<number>;
 }
