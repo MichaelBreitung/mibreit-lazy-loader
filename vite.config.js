@@ -18,6 +18,10 @@ export default defineConfig({
       generateScopedName: 'mbll__[local]', // mbg prefix for mibreit gallery
     },
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+  },
   build: {
     sourcemap: false,
     emptyOutDir: true,

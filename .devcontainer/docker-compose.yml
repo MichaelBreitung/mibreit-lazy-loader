@@ -17,4 +17,5 @@ services:
     environment:
       - USER=developer
       - UID
-  
+    ports:
+      - 5173:5173
