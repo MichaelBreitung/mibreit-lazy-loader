@@ -2,8 +2,5 @@
   display: none !important;
 }
 .mbll__transition {
-  -webkit-transition: opacity 800ms ease-out;
-  -moz-transition: opacity 800ms ease-out;
-  -o-transition: opacity 800ms ease-out;
   transition: opacity 800ms ease-out;
 }

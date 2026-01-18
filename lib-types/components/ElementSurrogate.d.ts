@@ -8,6 +8,7 @@ import Element from './Element';
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
     protected _surrogate: HTMLElement;
     protected _element: Element;
+    private _spinner;
     constructor(element: Element, horizontal?: boolean);
     getWidth(): number;
     getHeight(): number;

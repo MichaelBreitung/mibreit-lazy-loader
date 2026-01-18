@@ -13,21 +13,28 @@ import {
   removeElement,
   unwrapElements,
   wrapElements,
+  appendChildElement,
 } from 'mibreit-dom-tools';
 
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 import IElementInfo from '../interfaces/IElementInfo';
 import Element from './Element';
 
+import loadingStyles from './LoadingSpinner.module.css';
+
 export default class ElementSurrogate implements IElementLocationInfo, IElementInfo {
   protected _surrogate: HTMLElement;
   protected _element: Element;
+  private _spinner: HTMLElement | null = null;
 
   constructor(element: Element, horizontal: boolean = false) {
     this._element = element;
     this._surrogate = this._createSurrogate(horizontal);
     wrapElements([element.getHtmlElement()], this._surrogate);
     element.addWasLoadedCallback(() => {
+      if (this._spinner) {
+        removeElement(this._spinner);
+      }
       unwrapElements(this._surrogate);
       removeElement(this._surrogate);
     });
@@ -69,26 +76,22 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
   private _createSurrogate(horizontal: boolean = false): HTMLElement {
     console.log('ElementSurrogate#_createSurrogate', horizontal);
     const surrogate = createElement('div');
+    const aspectRatio = this._element.getWidth() / this._element.getHeight();
     addCssClass(surrogate, 'mibreit_lazyLoader_surrogate');
+    this._spinner = createElement('div');
+    addCssClass(this._spinner, loadingStyles.spinner);
+    appendChildElement(this._spinner, surrogate);
     if (horizontal) {
       overwriteCssStyles(
         surrogate,
-        `overflow: hidden; height: 100%; width: ${
-          (getElementDimension(this._element.getHtmlElement()).height * this._element.getWidth()) /
-          this._element.getHeight()
-        }px; flex-shrink:0;`
+        `overflow: hidden; height: 100%; width: auto; aspect-ratio: ${aspectRatio}; flex-shrink:0;`
       );
 
       setTimeout(() => {
         this._resize(true);
       }, 0);
     } else {
-      overwriteCssStyles(
-        surrogate,
-        `overflow: hidden; width: 100%; height: 0; padding-bottom: ${
-          (this._element.getHeight() * 100) / this._element.getWidth()
-        }%;`
-      );
+      overwriteCssStyles(surrogate, `overflow: hidden; width: 100%; height: auto; aspect-ratio: ${aspectRatio};`);
     }
 
     return surrogate;
