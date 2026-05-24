@@ -10,6 +10,7 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
     protected _element: Element;
     private _spinner;
     constructor(element: Element, horizontal?: boolean);
+    getHtmlElement(): HTMLElement;
     getWidth(): number;
     getHeight(): number;
     getStyle(): string;

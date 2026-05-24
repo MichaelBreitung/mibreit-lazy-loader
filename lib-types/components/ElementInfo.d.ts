@@ -10,6 +10,7 @@ export default class ElementInfo implements IElementLocationInfo, IElementInfo {
     private _height;
     private _originalElementStyle;
     constructor(element: HTMLElement);
+    getHtmlElement(): HTMLElement;
     getWidth(): number;
     getHeight(): number;
     getStyle(): string;

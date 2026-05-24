@@ -2,12 +2,11 @@
  * @author Michael Breitung
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
-import IElementLocationInfo from '../interfaces/IElementLocationInfo';
+import IElementInfo from '../interfaces/IElementInfo';
 import ILazyLoader from '../interfaces/ILazyLoader';
 export default class ScrollLoader {
     private _lazyLoader;
-    private _elementLocations;
-    constructor(lazyLoader: ILazyLoader, elementLocations: Array<IElementLocationInfo>);
+    private _elementInfos;
+    constructor(lazyLoader: ILazyLoader, elementInfos: Array<IElementInfo>);
     startLoader(): void;
-    private _loadElementsWithinWindowRect;
 }

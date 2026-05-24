@@ -40,6 +40,10 @@ export default class ElementSurrogate implements IElementLocationInfo, IElementI
     });
   }
 
+  getHtmlElement(): HTMLElement {
+    return this._surrogate;
+  }
+
   getWidth(): number {
     return this._element.getWidth();
   }
