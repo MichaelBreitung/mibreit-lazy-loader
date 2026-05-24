@@ -7,6 +7,7 @@ import ILazyLoader from '../interfaces/ILazyLoader';
 export default class ScrollLoader {
     private _lazyLoader;
     private _elementInfos;
-    constructor(lazyLoader: ILazyLoader, elementInfos: Array<IElementInfo>);
+    private _scrollLoaderDelay;
+    constructor(lazyLoader: ILazyLoader, elementInfos: Array<IElementInfo>, scrollLoaderDelay?: number);
     startLoader(): void;
 }

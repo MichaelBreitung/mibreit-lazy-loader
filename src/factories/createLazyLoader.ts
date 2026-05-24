@@ -26,7 +26,8 @@ function checkElementSelectorInput(elementSelector: string) {
 async function startLoader(
   loader: ILazyLoader,
   mode: ELazyMode = ELazyMode.SIMPLE_DEFER,
-  elementInfos: Array<IElementInfo>
+  elementInfos: Array<IElementInfo>,
+  scrollLoaderDelay: number = 200
 ) {
   console.log('startLoader');
   if (mode != null) {
@@ -37,7 +38,7 @@ async function startLoader(
         break;
       case ELazyMode.WINDOWED_SCROLL:
       case ELazyMode.WINDOWED_SCROLL_HORIZONTAL:
-        const scrollLoader = new ScrollLoader(loader, elementInfos);
+        const scrollLoader = new ScrollLoader(loader, elementInfos, scrollLoaderDelay);
         scrollLoader.startLoader();
         break;
       case ELazyMode.SIMPLE_DEFER:

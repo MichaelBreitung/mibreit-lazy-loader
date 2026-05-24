@@ -11,10 +11,12 @@ const LOAD_DELAY = 200;
 export default class ScrollLoader {
   private _lazyLoader: ILazyLoader;
   private _elementInfos: Array<IElementInfo> = [];
+  private _scrollLoaderDelay: number;
 
-  constructor(lazyLoader: ILazyLoader, elementInfos: Array<IElementInfo>) {
+  constructor(lazyLoader: ILazyLoader, elementInfos: Array<IElementInfo>, scrollLoaderDelay: number = LOAD_DELAY) {
     this._lazyLoader = lazyLoader;
     this._elementInfos = elementInfos;
+    this._scrollLoaderDelay = scrollLoaderDelay;
   }
 
   startLoader() {
@@ -33,7 +35,7 @@ export default class ScrollLoader {
                 }
               });
             }
-          }, LOAD_DELAY);
+          }, this._scrollLoaderDelay);
           pendingLoads.set(entry.target, timer);
         } else {
           const pending = pendingLoads.get(entry.target);
