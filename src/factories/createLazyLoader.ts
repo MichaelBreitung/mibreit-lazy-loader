@@ -74,7 +74,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
   const lazyLoader = new LazyLoader(elements, config.loaderWindowLeft, config.loaderWindowRight);
   // enqueing execution of startLoader -> to ensure that resize events from Surrogates are executed before
   setTimeout(() => {
-    startLoader(lazyLoader, config.mode, elementInfos);
+    startLoader(lazyLoader, config.mode, elementInfos, config.scrollLoaderDelay);
   }, 0);
   return lazyLoader;
 }
