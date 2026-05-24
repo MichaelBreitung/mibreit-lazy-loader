@@ -9,5 +9,6 @@ export type LazyLoaderConfig = {
     loaderWindowRight?: number;
     mode?: ELazyMode;
     useSurrogate?: boolean;
+    scrollLoaderDelay?: number;
 };
 export declare function checkLazyLoaderConfig(config: LazyLoaderConfig): void;

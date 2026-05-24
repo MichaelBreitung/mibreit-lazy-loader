@@ -10,6 +10,7 @@ export type LazyLoaderConfig = {
   loaderWindowRight?: number;
   mode?: ELazyMode;
   useSurrogate?: boolean;
+  scrollLoaderDelay?: number;
 };
 
 export function checkLazyLoaderConfig(config: LazyLoaderConfig) {
@@ -27,5 +28,14 @@ export function checkLazyLoaderConfig(config: LazyLoaderConfig) {
   }
   if (typeof config.mode !== 'undefined' && (typeof config.mode !== 'number' || config.mode < 0 || config.mode > 3)) {
     throw new Error('checkLazyLoaderConfig - mode of config must be a number (0, 1, 2, 3) - use type ELazyMode');
+  }
+  if (typeof config.useSurrogate !== 'undefined' && typeof config.useSurrogate !== 'boolean') {
+    throw new Error('checkLazyLoaderConfig - useSurrogate of config must be a boolean');
+  }
+  if (
+    typeof config.scrollLoaderDelay !== 'undefined' &&
+    (typeof config.scrollLoaderDelay !== 'number' || config.scrollLoaderDelay < 0)
+  ) {
+    throw new Error('checkLazyLoaderConfig - scrollLoaderDelay of config must be a number');
   }
 }

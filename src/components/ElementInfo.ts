@@ -26,6 +26,10 @@ export default class ElementInfo implements IElementLocationInfo, IElementInfo {
     this._height = parseInt(height);
   }
 
+  getHtmlElement(): HTMLElement {
+    return this._element;
+  }
+
   getWidth(): number {
     return this._width;
   }

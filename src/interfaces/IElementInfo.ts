@@ -4,6 +4,8 @@
  */
 
 export default interface IElementInfo {
+  getHtmlElement(): HTMLElement;
+
   getWidth(): number;
 
   getHeight(): number;

@@ -12,10 +12,10 @@ import ScrollLoader from '../components/ScrollLoader';
 // Interfaces
 import ILazyLoader from '../interfaces/ILazyLoader';
 import LazyLoader from '../components/LazyLoader';
-import IElementLocationInfo from '../interfaces/IElementLocationInfo';
 
 // Types
 import { checkLazyLoaderConfig, ELazyMode, LazyLoaderConfig } from '../types';
+import IElementInfo from '../interfaces/IElementInfo';
 
 function checkElementSelectorInput(elementSelector: string) {
   if (typeof elementSelector !== 'string') {
@@ -26,7 +26,8 @@ function checkElementSelectorInput(elementSelector: string) {
 async function startLoader(
   loader: ILazyLoader,
   mode: ELazyMode = ELazyMode.SIMPLE_DEFER,
-  elementLocations: Array<IElementLocationInfo>
+  elementInfos: Array<IElementInfo>,
+  scrollLoaderDelay: number = 200
 ) {
   console.log('startLoader');
   if (mode != null) {
@@ -37,7 +38,7 @@ async function startLoader(
         break;
       case ELazyMode.WINDOWED_SCROLL:
       case ELazyMode.WINDOWED_SCROLL_HORIZONTAL:
-        const scrollLoader = new ScrollLoader(loader, elementLocations);
+        const scrollLoader = new ScrollLoader(loader, elementInfos, scrollLoaderDelay);
         scrollLoader.startLoader();
         break;
       case ELazyMode.SIMPLE_DEFER:
@@ -55,7 +56,7 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
 
   checkLazyLoaderConfig(config);
 
-  let elementLocations: Array<IElementLocationInfo> = elements;
+  let elementInfos: Array<IElementInfo> = elements;
   if (config?.useSurrogate) {
     const surrogates: Array<ElementSurrogate> = [];
     if (config.mode === ELazyMode.WINDOWED_SCROLL || config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL) {
@@ -67,13 +68,13 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
         surrogates.push(surrogate);
       }
     }
-    elementLocations = surrogates;
+    elementInfos = surrogates;
   }
 
   const lazyLoader = new LazyLoader(elements, config.loaderWindowLeft, config.loaderWindowRight);
   // enqueing execution of startLoader -> to ensure that resize events from Surrogates are executed before
   setTimeout(() => {
-    startLoader(lazyLoader, config.mode, elementLocations);
+    startLoader(lazyLoader, config.mode, elementInfos, config.scrollLoaderDelay);
   }, 0);
   return lazyLoader;
 }
