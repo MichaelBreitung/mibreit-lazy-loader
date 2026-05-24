@@ -8,7 +8,8 @@
   "types": "lib-types",
   "scripts": {
     "dev": "vite",
-    "test": "vitest run",
+    "test": "vitest run --exclude 'test/**/*.perf.test.*'",
+    "test:perf": "vitest run test/scrollLoader.perf.test.ts",
     "build": "tsc --build --clean && tsc && vite build"
   },
   "devDependencies": {
