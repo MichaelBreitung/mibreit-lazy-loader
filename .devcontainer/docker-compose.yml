@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  mibreit-web-dev:
+  mibreit-lazy-loader-dev:
     build:
       context: .
       dockerfile: Dockerfile
