@@ -5,16 +5,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - UID=${UID:-1000} # id -u
+        - GID=${GID:-1000} # id -g
+        - USER=developer
     volumes:
       - /home/developer/develop/node_modules
       - ..:/home/developer/develop
-      - /var/run/docker.sock:/var/run/docker.sock
     extra_hosts:
       - "host.docker.internal:host-gateway"
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"
-    environment:
-      - USER=developer
-      - UID
     ports:
       - 5173:5173
+    env_file:
+      - path: ../.env
+        required: false

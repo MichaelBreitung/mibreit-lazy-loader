@@ -1,0 +1,7 @@
+{
+  "DOC_ROOT": "doc/",
+  "TRUNK_BRANCH": "main",
+  "TICKET_SYSTEM": "local",
+  "TICKET_PROFILE": "ticket-systems/local.md",
+  "SCRATCH_DIR": "temp/"
+}

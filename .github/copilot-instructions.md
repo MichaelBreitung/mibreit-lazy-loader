@@ -1,0 +1,1 @@
+Read .agents/AGENTS.md.

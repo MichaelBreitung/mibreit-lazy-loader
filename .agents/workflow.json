@@ -1,0 +1,4 @@
+{
+  "workflow": "architecture-driven-design",
+  "description": "Architecture-driven loop: Follows an architecture-driven design process, focusing on building a robust architecture, implementing it via a ticket workflow."
+}

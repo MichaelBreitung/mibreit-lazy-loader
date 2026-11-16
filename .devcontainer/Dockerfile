@@ -1,33 +1,25 @@
 # Dockerfile.base in this 
-FROM mibreit/mibreit-web-dev:latest 
+FROM mibreit/mibreit-homepage-builder:0.5.0 
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-  sudo=1.9.9-1ubuntu2.4 \
-  gnupg=2.2.27-3ubuntu2.1 && \
-  apt-get clean -y && \
-  rm -rf /var/lib/apt/lists/*
+ARG UID=${UID:-1000}
+ARG GID=${GID:-1000}
+ARG USER=${USER:-developer}
 
-RUN ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/node /usr/local/bin/node && \
-  ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/npm /usr/local/bin/npm && \
-  ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/npx /usr/local/bin/npx && \
-  npm install -g gulp-cli && \
-  ln -s $NVM_DIR/versions/node/$NODE_VERSION/bin/gulp /usr/local/bin/gulp
+ENV UID=${UID}
+ENV GID=${GID}
+ENV USER=${USER}
 
-# Setup dependencies required to run headless Chrome for testing
-RUN curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-  && apt-get update \
-  && apt-get install google-chrome-stable -y --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/*  
+# copy entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# setup developer user
-ENV UID=${UID:-1000}
-ENV GID=${UID:-1000}
-ENV USER=${USER:-developer}
-RUN groupadd -g $GID $USER && \
+# Ubuntu 24.04 ships a default "ubuntu" user with UID/GID 1000, which would collide
+RUN (id -u ubuntu > /dev/null 2>&1 && userdel -r ubuntu || true) && \
+  groupadd -g $GID $USER && \
   useradd -d /home/$USER -s /bin/bash -m $USER -l -u $UID -g $GID && \
-  echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN usermod -aG docker $USER
+  echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USER && \
+  chmod 0440 /etc/sudoers.d/$USER
+
 USER $USER
 
 # Highlight Branch in Bash for new user
@@ -36,4 +28,8 @@ RUN echo "parse_git_branch() {" >> ~/.bashrc && \
   echo "}" >> ~/.bashrc && \
   echo "export PS1='\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ '" >> ~/.bashrc
 
-# Add custom tooling on top, if required
+# Completion for Taskfile
+RUN echo 'eval "$(task --completion bash)"' >> ~/.bashrc
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["sleep", "infinity"]
