@@ -43,12 +43,17 @@ so swapping the backend means changing the line above — no skill is touched.
 
 | Purpose | Command | Notes |
 |---|---|---|
-| Run | `npm run dev` | Vite dev server |
-| Test | `npm test` | `vitest run`, excludes `*.perf.test.*` |
-| Perf test | `npm run test:perf` | Slow (puppeteer); not for unattended runs |
-| Build | `npm run build` | Regenerates `lib/`, `lib-cjs/`, `lib-iife/`, `lib-types/` (cleans first) |
+| Run | `task dev` | Vite dev server |
+| Setup | `task setup` | Installs dependencies |
+| Test | `task test` | `vitest run`, excludes `*.perf.test.*` |
+| Perf test | `task test:performance` | Slow (puppeteer); not for unattended runs |
+| Build | `task build` | Regenerates `lib/`, `lib-cjs/`, `lib-iife/`, `lib-types/` (cleans first) |
+| Clean | `task clean` | Removes `lib/`, `lib-cjs/`, `lib-iife/`, and `lib-types/` |
+| Release | `task deploy:release VERSION=x.y.z` | Requires `git` and GitHub CLI; pauses for release PR review and merge |
 
 There is no lint script.
+
+Generated `lib/`, `lib-cjs/`, `lib-iife/`, and `lib-types/` folders are ignored and not committed. Git dependency installs build them through the package's `prepare` script.
 
 ## Diagram Style
 

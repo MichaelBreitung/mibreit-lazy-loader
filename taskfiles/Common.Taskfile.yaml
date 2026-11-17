@@ -1,0 +1,31 @@
+version: '3'
+
+tasks:
+  check-version-format:
+    desc: Check that VERSION uses the x.y.z format
+    requires:
+      vars: [VERSION]
+    cmd: |
+      if ! printf '%s' {{shellQuote .VERSION}} | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+        echo 'VERSION must use the x.y.z format' >&2
+        exit 1
+      fi
+
+  get-latest-version:
+    desc: Print the latest release version from package.json
+    cmd: npm pkg get version --workspaces=false | tr -d '"'
+
+  check-version-higher:
+    desc: Check that VERSION is higher than the current package version
+    requires:
+      vars: [VERSION]
+    cmds:
+      - task: check-version-format
+        vars: { VERSION: '{{.VERSION}}' }
+      - cmd: |
+          CURRENT_VERSION="$(npm pkg get version --workspaces=false | tr -d '"')"
+          HIGHEST_VERSION="$(printf '%s\n' {{shellQuote .VERSION}} "$CURRENT_VERSION" | sort -V | tail -n 1)"
+          if test {{shellQuote .VERSION}} = "$CURRENT_VERSION" || test "$HIGHEST_VERSION" = "$CURRENT_VERSION"; then
+            echo 'VERSION must be higher than the current package version' >&2
+            exit 1
+          fi

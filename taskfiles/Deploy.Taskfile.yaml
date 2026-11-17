@@ -1,0 +1,68 @@
+version: '3'
+
+vars:
+  IIFE_LIBRARY_PATH:
+    ref: joinPath .ROOT_DIR "lib-iife/mibreitLazyLoader.min.js"
+
+tasks:
+  release:
+    desc: Build, version, review, and publish a GitHub Release with the IIFE library
+    requires:
+      vars: [VERSION]
+    cmds:
+      - task: :common:check-version-higher
+        vars: { VERSION: '{{.VERSION}}' }
+      - task: build
+      - task: update-version
+        vars: { VERSION: '{{.VERSION}}' }
+      - cmd: git checkout -b release/{{shellQuote .VERSION}}
+      - cmd: git add package.json package-lock.json
+      - cmd: git commit -m "Release {{shellQuote .VERSION}}"
+      - cmd: git push origin HEAD
+      - cmd: echo "In GitHub, create a pull request for the release branch and merge it into main."
+      - cmd: read -p "Press Enter to continue after merging the pull request..."
+      - cmd: git checkout main
+      - cmd: git pull origin main
+      - task: create
+        vars: { VERSION: '{{.VERSION}}' }
+      - task: upload
+        vars: { VERSION: '{{.VERSION}}' }
+
+  build:
+    desc: Build the ESM, CJS, IIFE, and type-definition libraries
+    cmd: npm run build
+
+  update-version:
+    desc: Update the package version
+    requires:
+      vars: [VERSION]
+    cmds:
+      - task: :common:check-version-format
+        vars: { VERSION: '{{.VERSION}}' }
+      - cmd: npm pkg set version={{shellQuote .VERSION}}
+      - cmd: npm install --package-lock-only --ignore-scripts
+
+  create:
+    desc: Create a GitHub Release
+    requires:
+      vars: [VERSION]
+    vars:
+      RELEASE_TAG: '{{.VERSION}}'
+    cmds:
+      - task: :common:check-version-format
+        vars: { VERSION: '{{.VERSION}}' }
+      - cmd: gh release create {{shellQuote .RELEASE_TAG}} --title {{shellQuote .RELEASE_TAG}} --generate-notes
+
+  upload:
+    desc: Upload the IIFE library to an existing GitHub Release
+    requires:
+      vars: [VERSION]
+    vars:
+      RELEASE_TAG: '{{.VERSION}}'
+    cmds:
+      - task: :common:check-version-format
+        vars: { VERSION: '{{.VERSION}}' }
+      - cmd: gh release upload {{shellQuote .RELEASE_TAG}} {{shellQuote .IIFE_LIBRARY_PATH}}
+    preconditions:
+      - sh: test -f {{shellQuote .IIFE_LIBRARY_PATH}}
+        msg: 'Build output not found: lib-iife/mibreitLazyLoader.min.js. Run "task deploy:build" first.'

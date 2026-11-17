@@ -6,11 +6,17 @@
   "main": "lib-cjs/index.cjs",
   "module": "lib/index.js",
   "types": "lib-types",
+  "files": [
+    "lib",
+    "lib-cjs",
+    "lib-types"
+  ],
   "scripts": {
     "dev": "vite",
-    "test": "vitest run --exclude 'test/**/*.perf.test.*'",
+    "test": "vitest run --passWithNoTests --exclude 'test/**/*.perf.test.*'",
     "test:perf": "vitest run test/scrollLoader.perf.test.ts",
-    "build": "tsc --build --clean && tsc && vite build"
+    "build": "tsc --build --clean && tsc && vite build",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-strip": "^3.0.4",

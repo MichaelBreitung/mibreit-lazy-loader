@@ -1,10 +1,10 @@
 {
-    "name": "mibreit_lazy_loader_tooling",
-    "dockerComposeFile": "./docker-compose.yml",
-    "service": "mibreit-lazy-loader-dev",
-    "workspaceFolder": "/home/developer/develop",
-    "shutdownAction": "stopCompose",
-    "containerUser": "developer",
+  "name": "mibreit_lazy_loader_tooling",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "mibreit-lazy-loader-dev",
+  "workspaceFolder": "/home/developer/develop",
+  "shutdownAction": "stopCompose",
+  "containerUser": "developer",
   "updateRemoteUserUID": true,
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}&& sudo chmod a+w /home/developer/develop/node_modules ",
   "customizations": {

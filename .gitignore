@@ -2,3 +2,7 @@
 /node_modules
 temp/
 .env
+/lib/
+/lib-cjs/
+/lib-iife/
+/lib-types/
