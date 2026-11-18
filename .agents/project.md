@@ -14,8 +14,9 @@ windowing mechanism. It is published as ESM, CJS and IIFE bundles and used by we
 The architecture documentation is the single source of truth. Each file has one scope; content is
 never duplicated across files.
 
-No architecture documentation exists yet. Run `architecture-create` first — it creates the files
-under `doc/` and records the `| File | Scope |` map here.
+| File | Scope |
+|---|---|
+| `doc/architecture.md` | Full arc42 architecture for the single published TypeScript browser library |
 
 ## Conventions
 
