@@ -1,0 +1,32 @@
+version: '3'
+
+includes:
+  init: ./taskfiles/Init.Taskfile.yaml
+  common: ./taskfiles/Common.Taskfile.yaml
+  test: ./taskfiles/Test.Taskfile.yaml
+  deploy: ./taskfiles/Deploy.Taskfile.yaml
+
+tasks:
+  setup:
+    desc: Install npm dependencies
+    cmds:
+      - task: init:setup
+
+  dev:
+    desc: Start the Vite development server for the demo pages
+    cmd: npm run dev
+
+  build:
+    desc: Build the ESM, CJS, IIFE, and type-definition libraries
+    cmds:
+      - task: deploy:build
+
+  test:
+    desc: Run the unit tests
+    cmds:
+      - task: test:all
+
+  clean:
+    desc: Remove all generated library output
+    cmds:
+      - cmd: rm -rf lib lib-cjs lib-iife lib-types

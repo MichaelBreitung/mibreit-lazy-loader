@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  all:
+    desc: Run the unit tests
+    cmd: npm test
+
+  performance:
+    desc: Run the slow Puppeteer performance tests
+    cmd: npm run test:perf

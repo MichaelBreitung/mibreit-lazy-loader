@@ -39,7 +39,21 @@ To prepare the project:
 1. Clone or download the repository.
 2. Open the project folder in VSCode.
 3. `CTRL+Shift+P` and enter "Dev Containers: Rebuild and Reopen in Container".
-4. Inside the Dev Container run: `npm i`.
+4. Inside the Dev Container run: `task init:setup`.
+
+### Project Commands
+
+The project uses [Task](https://taskfile.dev) as its command entry point:
+
+- `task dev` — start the Vite development server for the demo pages
+- `task setup` — install dependencies
+- `task build` — build the ESM, CJS, IIFE, and type-definition libraries
+- `task test` — run the unit tests
+- `task test:performance` — run the slow Puppeteer performance tests
+- `task clean` — remove all generated library output
+- `task deploy:release VERSION=x.y.z` — build, version, review, and publish a GitHub Release with the IIFE artifact
+
+Generated `lib/`, `lib-cjs/`, `lib-iife/`, and `lib-types/` folders are not checked in. The package's `prepare` script builds them when the library is installed directly from Git, so TypeScript and JavaScript consumers continue to receive compiled output without an npm publish.
 
 ### Usage
 
