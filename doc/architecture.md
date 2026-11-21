@@ -87,7 +87,7 @@ Detailed quality scenarios are recorded in [§10](#10-quality-requirements).
   library does not include a legacy polyfill layer.
 - The public API is exposed as ESM, CJS, and IIFE bundles with generated TypeScript
   definitions.
-- The library manipulates DOM elements through the `mibreit-dom-tools` abstraction.
+- The library manipulates DOM elements directly through standard browser APIs.
 - Build output is generated; source files are the only durable implementation input.
 
 ### 2.2 Organizational Constraints
@@ -207,7 +207,7 @@ graph LR
   over repeated geometry polling.
 - **Layout stability:** explicit surrogates are used because they provide more reliable
   space preservation than relying on media dimensions alone.
-- **Maintainability:** loading policy, DOM adaptation, viewport activation, and layout
+- **Maintainability:** loading policy, direct DOM access, viewport activation, and layout
   preservation are separate responsibilities behind narrow interfaces.
 - **Integration reach:** one source of truth supports script-tag pages, bundler-based
   JavaScript projects, and typed TypeScript consumers.
@@ -513,10 +513,9 @@ safe defaults for mode, loading window, and scroll delay.
 
 ### 8.7 DOM Access Boundary
 
-DOM access is currently isolated behind the `mibreit-dom-tools` dependency. This creates
-a single boundary for attribute, style, class, element creation, and geometry queries.
-The intended future direction is direct use of standard browser interfaces to reduce
-bundle size, as recorded in [TD-1](#td-1).
+DOM access uses standard browser APIs directly. Attribute, style, class, element
+creation, and geometry queries are implemented in the runtime classes and factory
+rather than through a separate DOM utility dependency.
 
 ## 9. Architecture Decisions
 
@@ -556,7 +555,7 @@ runtime.
 | ID  | Quality goal                 | Manifests as                                                                                                                                                                                                                                    |
 | --- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q-1 | Loading performance          | In simple defer mode, selected media starts only after initial page initialization. In scroll modes, media starts only after its element remains visible for the configured delay, and a pending load is cancelled when it leaves the viewport. |
-| Q-2 | Small bundle size            | The runtime is framework-free, console calls are stripped from production bundles, and only browser-native APIs plus one small DOM utility dependency are used.                                                                                 |
+| Q-2 | Small bundle size            | The runtime is framework-free, console calls are stripped from production bundles, and only browser-native APIs are used.                                                                                                                       |
 | Q-3 | Maintainability              | Loading policy, DOM adaptation, intersection activation, surrogate handling, and configuration validation are separated behind narrow interfaces.                                                                                               |
 | Q-4 | Modern browser compatibility | The library uses current browser interfaces such as intersection observation and CSS modules without a legacy polyfill layer.                                                                                                                   |
 | Q-5 | Ease of use                  | A host page can pass a CSS selector and a small configuration object; common mode, loading-window, and scroll-delay values have defaults.                                                                                                       |
@@ -565,11 +564,11 @@ runtime.
 
 #### TD-1
 
-**Remove the DOM utility abstraction.** The `mibreit-dom-tools` abstraction is no longer
+~~**Remove the DOM utility abstraction.** The `mibreit-dom-tools` abstraction is no longer
 considered necessary and adds avoidable bundle size. Modern browser interfaces are
 consistent enough for direct use. The abstraction should be removed and calls replaced
 with standard DOM APIs, followed by verification that bundle size decreases and behavior
-remains unchanged.
+remains unchanged.~~ (resolved on 2026-11-21)
 
 #### TD-2
 

@@ -3,8 +3,6 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import { getElements } from 'mibreit-dom-tools';
-
 import Element from '../components/Element';
 import ElementSurrogate from '../components/ElementSurrogate';
 import ScrollLoader from '../components/ScrollLoader';
@@ -63,7 +61,8 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
       for (let i = 0; i < elements.length; i++) {
         const surrogate = new ElementSurrogate(
           elements[i],
-          config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false
+          config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false,
+          config.showLoadingSpinner ? true : false
         );
         surrogates.push(surrogate);
       }
@@ -84,7 +83,7 @@ export function createLazyLoader(elementSelector: string, config: LazyLoaderConf
 
   checkElementSelectorInput(elementSelector);
 
-  const htmlElements: NodeListOf<HTMLElement> = getElements(elementSelector);
+  const htmlElements = document.querySelectorAll<HTMLElement>(elementSelector);
   const elements: Array<Element> = [];
   for (let i = 0; i < htmlElements.length; i++) {
     const element = new Element(htmlElements[i]);

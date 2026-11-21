@@ -9,7 +9,7 @@ It was built for the photography website of [Michael Breitung Photography](https
 - **Simple deferred loading** — loads all selected images or iframes after the rest of the page has initialized.
 - **Scroll-based loading** — loads elements as they scroll into view, vertically or horizontally.
 - **Externally controlled loading** — loads a configurable window of elements around a current index.
-- **Stable layout** — optional surrogate elements reserve the target dimensions and show a loading indicator until media is ready.
+- **Stable layout** — optional surrogate elements reserve the target dimensions and can show a loading spinner until media is ready.
 - **Multiple integration styles** — ships as an IIFE bundle for HTML pages and as ESM and CJS packages with TypeScript definitions.
 - **Modern browsers** — uses current browser interfaces and includes no legacy polyfills.
 
@@ -66,13 +66,14 @@ The loader returns a control object that can be stored for later use.
 
 ## Configuration
 
-| Option              | Description                                                              | Default        |
-| ------------------- | ------------------------------------------------------------------------ | -------------- |
-| `mode`              | Loading mode; see the table below                                        | `SIMPLE_DEFER` |
-| `loaderWindowLeft`  | Elements loaded before the current index in external windowed mode       | `0`            |
-| `loaderWindowRight` | Elements loaded after the current index in external windowed mode        | `1`            |
-| `useSurrogate`      | Reserve layout space with a placeholder and loading indicator            | `false`        |
-| `scrollLoaderDelay` | Milliseconds an element must remain visible before scroll loading starts | `200`          |
+| Option               | Description                                                              | Default        |
+| -------------------- | ------------------------------------------------------------------------ | -------------- |
+| `mode`               | Loading mode; see the table below                                        | `SIMPLE_DEFER` |
+| `loaderWindowLeft`   | Elements loaded before the current index in external windowed mode       | `0`            |
+| `loaderWindowRight`  | Elements loaded after the current index in external windowed mode        | `1`            |
+| `useSurrogate`       | Reserve layout space with a placeholder                                  | `false`        |
+| `showLoadingSpinner` | Show a loading spinner in the surrogate until the element is loaded      | `false`        |
+| `scrollLoaderDelay`  | Milliseconds an element must remain visible before scroll loading starts | `200`          |
 
 ### Loading modes
 
@@ -83,7 +84,7 @@ The loader returns a control object that can be stored for later use.
 | `WINDOWED_SCROLL`            | Loads elements as they scroll into the vertical viewport          |
 | `WINDOWED_SCROLL_HORIZONTAL` | Loads elements as they scroll into the horizontal viewport        |
 
-Surrogates are only used in the two scroll modes. If a scroll-loaded element leaves the viewport before `scrollLoaderDelay` expires, its pending load is cancelled.
+Surrogates are only used in the two scroll modes. The loading spinner is hidden by default; set `showLoadingSpinner: true` together with `useSurrogate: true` to display it inside each surrogate while its element loads. `showLoadingSpinner` has no effect without `useSurrogate`. If a scroll-loaded element leaves the viewport before `scrollLoaderDelay` expires, its pending load is cancelled.
 
 In external windowed mode, the current element is always loaded, even when both `loaderWindowLeft` and `loaderWindowRight` are `0`. The two options control the number of additional elements loaded before and after it.
 

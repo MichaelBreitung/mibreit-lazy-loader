@@ -10,6 +10,7 @@ import ElementInfo from './ElementInfo';
 
 export default class Element extends ElementLoader implements IElementLocationInfo, IElementInfo {
   private _elementInfo: ElementInfo;
+  private _surrogate: HTMLElement | null = null;
 
   constructor(element: HTMLElement) {
     super(element);
@@ -18,6 +19,18 @@ export default class Element extends ElementLoader implements IElementLocationIn
 
   getHtmlElement(): HTMLElement {
     return this._element;
+  }
+
+  setSurrogate(surrogate: HTMLElement | null) {
+    this._surrogate = surrogate;
+  }
+
+  hasSurrogate(): boolean {
+    return this._surrogate !== null;
+  }
+
+  getSurrogate(): HTMLElement | null {
+    return this._surrogate;
   }
 
   getWidth(): number {

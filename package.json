@@ -26,8 +26,5 @@
     "vitest": "^1.6.0"
   },
   "author": "Michael Breitung",
-  "license": "BSD-2-Clause",
-  "dependencies": {
-    "mibreit-dom-tools": "github:MichaelBreitung/mibreit-dom-tools"
-  }
+  "license": "BSD-2-Clause"
 }
