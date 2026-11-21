@@ -61,7 +61,8 @@ export function createLazyLoaderFromElements(elements: Array<Element>, config: L
       for (let i = 0; i < elements.length; i++) {
         const surrogate = new ElementSurrogate(
           elements[i],
-          config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false
+          config.mode === ELazyMode.WINDOWED_SCROLL_HORIZONTAL ? true : false,
+          config.showLoadingSpinner ? true : false
         );
         surrogates.push(surrogate);
       }
