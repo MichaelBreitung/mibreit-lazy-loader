@@ -3,16 +3,6 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import {
-  addCssClass,
-  addCssStyle,
-  getAttribute,
-  getCssClasses,
-  removeAttribute,
-  removeCssClass,
-  removeCssStyle,
-  setAttribute,
-} from 'mibreit-dom-tools';
 import IElementLoader from '../interfaces/IElementLoader';
 import IElementLoaderInfo from '../interfaces/IElementLoaderInfo';
 
@@ -35,8 +25,8 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
 
   constructor(element: HTMLElement) {
     this._element = element;
-    this._dataSrc = getAttribute(element, DATA_SRC_ATTRIBUTE);
-    const classes = getCssClasses(element)?.split(',');
+    this._dataSrc = element.getAttribute(DATA_SRC_ATTRIBUTE);
+    const classes = element.getAttribute('class')?.split(',');
 
     if (this._dataSrc || (classes && classes.includes(LAZY_LOADING_CLASS))) {
       this._state = EImageState.INACTIVE;
@@ -85,14 +75,14 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
 
   private _triggerLoad() {
     if (this._dataSrc) {
-      setAttribute(this._element, SRC_ATTRIBUTE, this._dataSrc);
+      this._element.setAttribute(SRC_ATTRIBUTE, this._dataSrc);
     }
-    removeCssClass(this._element, LAZY_LOADING_CLASS);
+    this._element.classList.remove(LAZY_LOADING_CLASS);
   }
 
   private _finishLoad() {
     console.log('ElementLoader#_finishLoad');
-    removeAttribute(this._element, DATA_SRC_ATTRIBUTE);
+    this._element.removeAttribute(DATA_SRC_ATTRIBUTE);
     this._state = EImageState.LOADED;
     this._wasLoadedCallbacks.forEach((callback) => {
       callback();
@@ -108,17 +98,20 @@ export default class ElementLoader implements IElementLoader, IElementLoaderInfo
   }
 
   private _setBaseStyle() {
-    addCssStyle(this._element, 'opacity', '0');
+    this._element.style.setProperty('opacity', '0');
   }
 
   private _setLoadingStyle() {
-    addCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
+    this._element.classList.add(LAZY_LOADING_ANIMATE_CLASS);
   }
 
   private _setLoadedStyle() {
-    removeCssStyle(this._element, 'opacity');
+    this._element.style.removeProperty('opacity');
+    if (this._element.style.length === 0) {
+      this._element.removeAttribute('style');
+    }
     setTimeout(() => {
-      removeCssClass(this._element, LAZY_LOADING_ANIMATE_CLASS);
+      this._element.classList.remove(LAZY_LOADING_ANIMATE_CLASS);
     }, 1000);
   }
 }

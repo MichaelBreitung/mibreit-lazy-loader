@@ -3,9 +3,9 @@
  * @copyright Michael Breitung Photography (www.mibreit-photo.com)
  */
 
-import { getAttribute, isElementWithinWindow } from 'mibreit-dom-tools';
 import IElementInfo from '../interfaces/IElementInfo';
 import IElementLocationInfo from '../interfaces/IElementLocationInfo';
+import { isElementWithinScrollArea } from '../tools/isElementWithinScrollArea';
 
 export default class ElementInfo implements IElementLocationInfo, IElementInfo {
   private _element: HTMLElement;
@@ -14,12 +14,12 @@ export default class ElementInfo implements IElementLocationInfo, IElementInfo {
   private _originalElementStyle: string;
 
   constructor(element: HTMLElement) {
-    const width = getAttribute(element, 'width');
-    const height = getAttribute(element, 'height');
+    const width = element.getAttribute('width');
+    const height = element.getAttribute('height');
     if (width == null || height == null) {
       throw new Error('ElementInfo#constructor - supported elements need a width and height property');
     }
-    const originalStyle = getAttribute(element, 'class');
+    const originalStyle = element.getAttribute('class');
     this._element = element;
     this._originalElementStyle = originalStyle ? originalStyle : '';
     this._width = parseInt(width);
@@ -43,6 +43,6 @@ export default class ElementInfo implements IElementLocationInfo, IElementInfo {
   }
 
   isElementWithinScrollArea(): boolean {
-    return isElementWithinWindow(this._element);
+    return isElementWithinScrollArea(this._element);
   }
 }
